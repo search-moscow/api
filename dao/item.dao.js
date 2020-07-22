@@ -1,15 +1,15 @@
 ObjectID = require('mongodb').ObjectID
 
 let items
-let snake
+let moscow
 
 class ItemDAO {
 
     static async injectDB(conn) {
         try {
             // process.env.MFLIX_NS
-            snake = await conn.db('snake')
-            items = await snake.collection("items")
+            moscow = await conn.db('moscow')
+            items = await moscow.collection("items")
         //   this.movies = movies // this is only for testing
         } catch (e) {
           console.error(

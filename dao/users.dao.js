@@ -1,6 +1,6 @@
 let users
 let sessions
-let snake
+let moscow
 
 class UsersDAO {
   
@@ -9,9 +9,9 @@ class UsersDAO {
     //   return
     // }
     try {
-        snake = await conn.db('snake')
-        users = snake.collection("users")
-        sessions = snake.collection("sessions")
+      moscow = await conn.db('moscow')
+        users = moscow.collection("users")
+        sessions = moscow.collection("sessions")
     } catch (e) {
       console.error(`Unable to establish collection handles in userDAO: ${e}`)
     }
