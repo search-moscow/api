@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV == 'production') {
-    process.env.URI = "mongodb://d3c0d3:d3d3c0d3cgjrbyjrb@89.108.103.89/search?retryWrites=true&w=majority";
+    process.env.URI = "mongodb://d3c0d3:d3d3c0d3cgjrbyjrb@89.108.103.89:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false";
 } else {
     process.env.URI = "mongodb://localhost:27017/";
 }
