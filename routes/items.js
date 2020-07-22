@@ -38,5 +38,6 @@ router.post('/update', AuthController.access, upload.single("uploadFile"), ItemC
 router.post('/delete', AuthController.access, ItemController.delete);
 
 router.get('/read/:id', ItemController.single);
+router.get('/search', ItemController.search);
 
 module.exports = router;

@@ -196,6 +196,15 @@ class ItemController {
         }
     }
 
+    static async search(req, res) {
+        try {
+            let response  = await ItemDAO.search(req.query.text)
+            res.json(response)
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
 }
 
 module.exports = ItemController;
