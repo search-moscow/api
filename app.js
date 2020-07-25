@@ -15,10 +15,12 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var itemsRouter = require('./routes/items');
 var categoriesRouter = require('./routes/categories');
+var metrosRouter = require('./routes/metros');
 
 var UsersDAO = require('./dao/users.dao');
 var ItemDAO = require('./dao/item.dao');
 var CategoryDAO = require('./dao/category.dao');
+var MetroDAO = require('./dao/metro.dao');
 
 var app = express();
 
@@ -29,6 +31,7 @@ MongoClient(process.env.URI).catch(err => {
     await UsersDAO.injectDB(client)
     await ItemDAO.injectDB(client)
     await CategoryDAO.injectDB(client)
+    await MetroDAO.injectDB(client)
 })
 
 app.use(cors())
@@ -44,5 +47,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use('/api/users', usersRouter);
 app.use('/api/items', itemsRouter);
 app.use('/api/categories', categoriesRouter);
+app.use('/api/metros', metrosRouter);
 
 module.exports = app;
