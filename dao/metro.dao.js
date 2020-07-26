@@ -3,7 +3,7 @@ ObjectID = require('mongodb').ObjectID
 let metros
 let moscow
 
-class CategoryDAO {
+class MetroDAO {
 
     static async injectDB(conn) {
         try {

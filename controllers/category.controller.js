@@ -46,6 +46,15 @@ class CategoryController {
         }
     }
 
+    static async single(req, res) {
+        try {
+            let response = await CategoryDAO.single(req.params.id)
+            res.json(response) 
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
 }
     
 module.exports = CategoryController;

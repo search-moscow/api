@@ -72,6 +72,18 @@ class CategoryDAO {
             console.log(`No listings found`);
         }
     }
+
+    static async single(id) {
+        const result = await categories.findOne({slug: id})
+                              
+        if (result) {
+            console.log(`Found a listing in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
 }
 
 module.exports = CategoryDAO

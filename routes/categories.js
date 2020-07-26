@@ -12,5 +12,5 @@ router.post('/create', AuthController.access, CategoryController.create);
 router.get('/read', CategoryController.index);
 router.post('/update', AuthController.access, CategoryController.update);
 router.post('/delete', AuthController.access, CategoryController.delete);
-
+router.get('/read/:id', CategoryController.single);
 module.exports = router;
