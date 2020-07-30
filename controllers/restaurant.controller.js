@@ -78,9 +78,10 @@ class RestaurantController {
                     req.body.title,
                     req.body.description,
                     req.body.type,
-                    req.body.category,
+                    req.body.metro,
                     filename,
-                    req.body.text
+                    req.body.text,
+                    req.body.phone
                 )
                 
                 res.json(response)

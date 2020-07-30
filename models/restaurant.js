@@ -5,6 +5,17 @@ class Restaurant {
         this.description = description
         this.type = type
         this.filename = filename
+        this.phone = this.phone
+        this.metro = this.metro
+        
+        // this.price = this.price
+        
+        // this.photos = this.photos
+        // this.address = this.address
+        // this.time = this.time
+        // this.documents = this.documents
+        
+        // GEO
     }
 
     toJson() {

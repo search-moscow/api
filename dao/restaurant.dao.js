@@ -37,8 +37,8 @@ class RestaurantDAO {
         const cursor = restaurants
             .aggregate([
                 { $match:{slug: id}},
-                { $addFields: { "convertedId": { $toObjectId: "$category"}}},
-                { $lookup: { from: "categories", localField: "convertedId", foreignField: "_id", as: "inventory_docs" } },
+                { $addFields: { "convertedId": { $toObjectId: "$metro"}}},
+                { $lookup: { from: "metros", localField: "convertedId", foreignField: "_id", as: "inventory_docs" } },
                 { $limit: 1 }
             ]);
     
@@ -57,7 +57,7 @@ class RestaurantDAO {
         }
     }
 
-    static async create(slug, title, description, type, category, filename, text) {
+    static async create(slug, title, description, type, metro, filename, text, phone) {
 
         const result = await restaurants.insertOne(
             {
@@ -65,10 +65,11 @@ class RestaurantDAO {
                 title: title,
                 description: description,
                 type: type,
-                category: category,
+                metro: metro,
                 filename: filename,
                 views: 0,
-                text: text
+                text: text,
+                phone: phone
             }
         );
         console.log(`New listing created with the following id: ${result.insertedId}`);
@@ -104,8 +105,9 @@ class RestaurantDAO {
                     title: object.title,
                     description: object.description,
                     text: object.text,
-                    category: object.category,
+                    category: object.metro,
                     type: type,
+                    phone: object.phone
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }
                 }
@@ -129,9 +131,10 @@ class RestaurantDAO {
                     title: object.title,
                     description: object.description,
                     text: object.text,
-                    category: object.category,
+                    category: object.metro,
                     type: type,
-                    filename: object.filename
+                    filename: object.filename,
+                    phone: object.phone
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }
                 }
