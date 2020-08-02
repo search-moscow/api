@@ -21,7 +21,9 @@ class RestaurantDAO {
     static async getAll() {
         const cursor = await restaurants
         .aggregate([
-            {$sort: {_id: -1}}
+            { $addFields: { "convertedId": { $toObjectId: "$metro"}}},
+            { $lookup: { from: "metros", localField: "convertedId", foreignField: "_id", as: "metros" } },
+            { $sort: {_id: -1} }
         ]);
         const results = await cursor.toArray();
                           
@@ -105,7 +107,7 @@ class RestaurantDAO {
                     title: object.title,
                     description: object.description,
                     text: object.text,
-                    category: object.metro,
+                    metro: object.metro,
                     type: type,
                     phone: object.phone
                     // tags: [ "software" ],
@@ -131,7 +133,7 @@ class RestaurantDAO {
                     title: object.title,
                     description: object.description,
                     text: object.text,
-                    category: object.metro,
+                    metro: object.metro,
                     type: type,
                     filename: object.filename,
                     phone: object.phone

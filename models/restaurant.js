@@ -14,6 +14,7 @@ class Restaurant {
         // this.address = this.address
         // this.time = this.time
         // this.documents = this.documents
+        // this.website = this.website
         
         // GEO
     }
