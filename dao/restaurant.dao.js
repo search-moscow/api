@@ -21,6 +21,7 @@ class RestaurantDAO {
     static async getAll() {
         const cursor = await restaurants
         .aggregate([
+            // { $match: { type: true } },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
@@ -41,8 +42,10 @@ class RestaurantDAO {
         const cursor = restaurants
             .aggregate([
                 { $match:{slug: id}},
-                { $addFields: { "convertedId": { $toObjectId: "$metro"}}},
-                { $lookup: { from: "metros", localField: "convertedId", foreignField: "_id", as: "inventory_docs" } },
+                { $addFields: { "metro": { $toObjectId: "$metro"}}},
+                { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
+                { $addFields: { "district": { $toObjectId: "$district"}}},
+                { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
                 { $limit: 1 }
             ]);
     
@@ -63,12 +66,21 @@ class RestaurantDAO {
 
     static async create(slug, title, description, type, metro, filename, text, phone, district) {
 
+        let status
+        if (type == "true") {
+            status = true
+        }
+
+        if (type == "false") {
+            status = false
+        }
+
         const result = await restaurants.insertOne(
             {
                 slug: slug,
                 title: title,
                 description: description,
-                type: type,
+                type: status,
                 metro: metro,
                 filename: filename,
                 views: 0,
@@ -111,6 +123,7 @@ class RestaurantDAO {
                     description: object.description,
                     text: object.text,
                     metro: object.metro,
+                    district: object.district,
                     type: type,
                     phone: object.phone
                     // tags: [ "software" ],
@@ -137,6 +150,7 @@ class RestaurantDAO {
                     description: object.description,
                     text: object.text,
                     metro: object.metro,
+                    district: object.district,
                     type: type,
                     filename: object.filename,
                     phone: object.phone
