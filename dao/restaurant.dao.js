@@ -21,8 +21,10 @@ class RestaurantDAO {
     static async getAll() {
         const cursor = await restaurants
         .aggregate([
-            { $addFields: { "convertedId": { $toObjectId: "$metro"}}},
-            { $lookup: { from: "metros", localField: "convertedId", foreignField: "_id", as: "metros" } },
+            { $addFields: { "metro": { $toObjectId: "$metro"}}},
+            { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
+            { $addFields: { "district": { $toObjectId: "$district"}}},
+            { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
             { $sort: {_id: -1} }
         ]);
         const results = await cursor.toArray();
@@ -59,7 +61,7 @@ class RestaurantDAO {
         }
     }
 
-    static async create(slug, title, description, type, metro, filename, text, phone) {
+    static async create(slug, title, description, type, metro, filename, text, phone, district) {
 
         const result = await restaurants.insertOne(
             {
@@ -71,7 +73,8 @@ class RestaurantDAO {
                 filename: filename,
                 views: 0,
                 text: text,
-                phone: phone
+                phone: phone,
+                district: district
             }
         );
         console.log(`New listing created with the following id: ${result.insertedId}`);

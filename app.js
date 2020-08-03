@@ -19,6 +19,7 @@ var metrosRouter = require('./routes/metros');
 var districtsRouter = require('./routes/districts');
 var restaurantsRouter = require('./routes/restaurants');
 var eventsRouter = require('./routes/events');
+var searchRouter = require('./routes/search');
 
 var UsersDAO = require('./dao/users.dao');
 var ItemDAO = require('./dao/item.dao');
@@ -53,6 +54,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+app.use('/search', searchRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/items', itemsRouter);
 app.use('/api/categories', categoriesRouter);
