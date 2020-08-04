@@ -200,6 +200,27 @@ class RestaurantDAO {
         }
 
     }
+
+    static async includeOptionals(body) {
+        console.log(body.params)
+        const result = await restaurants.update(
+            { _id: new ObjectID(body.id) },
+            {
+                $set: {
+                    address: body.params.address,
+                    keywords: body.params.keywords,
+                    geo: body.params.geo
+                }
+            }
+            )
+        
+        if (result) {
+            console.log(`Update a listing in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
 }
 
 module.exports = RestaurantDAO;

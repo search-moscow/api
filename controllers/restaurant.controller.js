@@ -278,6 +278,17 @@ class RestaurantController {
         }
     }
 
+
+    static async additionally(req, res) {
+        try {
+            let response  = await RestauranttDAO.includeOptionals(req.body)
+                
+            res.json(response)
+        } catch (error) {
+            res.status(500).json(error)
+        }
+    }
+
 }
 
 module.exports = RestaurantController;

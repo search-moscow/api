@@ -52,6 +52,7 @@ router.post('/update', AuthController.access, upload.single("uploadFile"), Resta
 router.post('/delete', AuthController.access, RestaurantController.delete);
 
 router.post('/photos', AuthController.access, uploadPhotos.array('photos', 12), RestaurantController.gallery)
+router.post('/optional', AuthController.access, RestaurantController.additionally)
 router.get('/read/:id', RestaurantController.single);
 
 module.exports = router;
