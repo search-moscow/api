@@ -180,7 +180,6 @@ class RestaurantController {
         let filename = req.body.doc.filename
 
         try {
-            let response  = await RestauranttDAO.delete(id)
 
             try {
                 fs.unlinkSync(path.join(__dirname, '../uploads/restaurants/1x/' + '1x' + filename))
@@ -190,8 +189,18 @@ class RestaurantController {
             } catch(err) {
                 console.error(err)
             }
+            
+            for (let i = 0; i < req.body.doc.photos.length; i++) {
+                try {
+                    fs.unlinkSync(path.join(__dirname, '../uploads/restaurants/photos/' + '2x' + req.body.doc.photos[i]))
+                } catch(err) {
+                    console.error(err)
+                }
+            }
 
+            let response  = await RestauranttDAO.delete(id)
             res.json(response)
+            
 
         } catch (error) {
             res.status(500).json(error);
@@ -204,6 +213,68 @@ class RestaurantController {
             res.json(response)
         } catch (error) {
             res.status(500).json(error);
+        }
+    }
+
+    static async gallery(req, res) {
+        
+        let filenames = []
+        
+        try {
+            let filesdata = req.files
+
+            if (!filesdata) {
+                res.json("Ошибка при загрузке файла");
+            } else {
+
+                let current  = await RestauranttDAO.getBy(req.body.slug)
+                // If have photos 
+                
+                if (current[0].photos) {
+                    for (let i = 0; i < current[0].photos.length; i++) {
+                        try {
+                            fs.unlinkSync(path.join(__dirname, '../uploads/restaurants/photos/' + '2x' + current[0].photos[i]))
+                        } catch(err) {
+                            console.error(err)
+                        }
+                    }
+                }
+
+
+                for (let i = 0; i < req.files.length; i++) {
+                    let filename = filesdata[i].filename;
+                    filenames.push(filesdata[i].filename)
+                    
+                    var buffer = fs.readFileSync(path.join(__dirname, '../uploads/restaurants/photos/' + filename));
+
+
+                    sharp(buffer)
+                    .resize(2000, 1000)
+                    .toFile(path.join(__dirname, '../uploads/restaurants/photos/' + '2x' + filename), (err, info) => { 
+                  
+                      if (err) {
+                        throw err;
+                      }
+                  
+                    });
+
+                    try {
+                        fs.unlinkSync(path.join(__dirname, '../uploads/restaurants/photos/' + filename))
+                    } catch(err) {
+                        console.error(err)
+                    }
+
+                }
+
+                let response  = await RestauranttDAO.includePhotos(req.body.id, filenames)
+                
+                res.json(response)
+
+
+            }
+
+        } catch (error) {
+            res.status(500).json(error)
         }
     }
 

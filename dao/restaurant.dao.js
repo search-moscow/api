@@ -180,6 +180,26 @@ class RestaurantDAO {
             console.log(`No listings found`);
         }
     }
+
+    static async includePhotos(id, photos) {
+
+        const result = await restaurants.update(
+            { _id: new ObjectID(id) },
+            {
+                $set: {
+                    photos: photos
+                }
+            }
+            )
+        
+        if (result) {
+            console.log(`Update a listing in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+
+    }
 }
 
 module.exports = RestaurantDAO;
