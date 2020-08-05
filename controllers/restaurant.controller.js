@@ -207,15 +207,6 @@ class RestaurantController {
         }
     }
 
-    static async search(req, res) {
-        try {
-            let response  = await RestauranttDAO.search(req.query.text)
-            res.json(response)
-        } catch (error) {
-            res.status(500).json(error);
-        }
-    }
-
     static async gallery(req, res) {
         
         let filenames = []

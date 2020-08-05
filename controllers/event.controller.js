@@ -78,9 +78,11 @@ class EventController {
                     req.body.title,
                     req.body.description,
                     req.body.type,
-                    req.body.category,
+                    req.body.metro,
                     filename,
-                    req.body.text
+                    req.body.text,
+                    req.body.phone,
+                    req.body.district
                 )
                 
                 res.json(response)
@@ -178,7 +180,6 @@ class EventController {
         let filename = req.body.doc.filename
 
         try {
-            let response  = await EventDAO.delete(id)
 
             try {
                 fs.unlinkSync(path.join(__dirname, '../uploads/events/1x/' + '1x' + filename))
@@ -189,6 +190,15 @@ class EventController {
                 console.error(err)
             }
 
+            for (let i = 0; i < req.body.doc.photos.length; i++) {
+                try {
+                    fs.unlinkSync(path.join(__dirname, '../uploads/events/photos/' + '2x' + req.body.doc.photos[i]))
+                } catch(err) {
+                    console.error(err)
+                }
+            }
+
+            let response  = await EventDAO.delete(id)
             res.json(response)
 
         } catch (error) {
@@ -196,12 +206,77 @@ class EventController {
         }
     }
 
-    static async search(req, res) {
+
+    static async gallery(req, res) {
+        
+        let filenames = []
+        
         try {
-            let response  = await EventDAO.search(req.query.text)
+            let filesdata = req.files
+
+            if (!filesdata) {
+                res.json("Ошибка при загрузке файла");
+            } else {
+
+                let current  = await EventDAO.getBy(req.body.slug)
+                // If have photos 
+                
+                if (current[0].photos) {
+                    for (let i = 0; i < current[0].photos.length; i++) {
+                        try {
+                            fs.unlinkSync(path.join(__dirname, '../uploads/events/photos/' + '2x' + current[0].photos[i]))
+                        } catch(err) {
+                            console.error(err)
+                        }
+                    }
+                }
+
+
+                for (let i = 0; i < req.files.length; i++) {
+                    let filename = filesdata[i].filename;
+                    filenames.push(filesdata[i].filename)
+                    
+                    var buffer = fs.readFileSync(path.join(__dirname, '../uploads/events/photos/' + filename));
+
+
+                    sharp(buffer)
+                    .resize(2000, 1000)
+                    .toFile(path.join(__dirname, '../uploads/events/photos/' + '2x' + filename), (err, info) => { 
+                  
+                      if (err) {
+                        throw err;
+                      }
+                  
+                    });
+
+                    try {
+                        fs.unlinkSync(path.join(__dirname, '../uploads/events/photos/' + filename))
+                    } catch(err) {
+                        console.error(err)
+                    }
+
+                }
+
+                let response  = await EventDAO.includePhotos(req.body.id, filenames)
+                
+                res.json(response)
+
+
+            }
+
+        } catch (error) {
+            res.status(500).json(error)
+        }
+    }
+
+
+    static async additionally(req, res) {
+        try {
+            let response  = await EventDAO.includeOptionals(req.body)
+                
             res.json(response)
         } catch (error) {
-            res.status(500).json(error);
+            res.status(500).json(error)
         }
     }
 

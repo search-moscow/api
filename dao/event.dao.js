@@ -21,7 +21,12 @@ class EventDAO {
     static async getAll() {
         const cursor = await events
         .aggregate([
-            {$sort: {_id: -1}}
+            // { $match: { type: true } },
+            { $addFields: { "metro": { $toObjectId: "$metro"}}},
+            { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
+            { $addFields: { "district": { $toObjectId: "$district"}}},
+            { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+            { $sort: {_id: -1} }
         ]);
         const results = await cursor.toArray();
                           
@@ -37,8 +42,10 @@ class EventDAO {
         const cursor = events
             .aggregate([
                 { $match:{slug: id}},
-                { $addFields: { "convertedId": { $toObjectId: "$category"}}},
-                { $lookup: { from: "categories", localField: "convertedId", foreignField: "_id", as: "inventory_docs" } },
+                { $addFields: { "metro": { $toObjectId: "$metro"}}},
+                { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
+                { $addFields: { "district": { $toObjectId: "$district"}}},
+                { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
                 { $limit: 1 }
             ]);
     
@@ -57,18 +64,29 @@ class EventDAO {
         }
     }
 
-    static async create(slug, title, description, type, category, filename, text) {
+    static async create(slug, title, description, type, metro, filename, text, phone, district) {
+
+        let status
+        if (type == "true") {
+            status = true
+        }
+
+        if (type == "false") {
+            status = false
+        }
 
         const result = await events.insertOne(
             {
                 slug: slug,
                 title: title,
                 description: description,
-                type: type,
-                category: category,
+                type: status,
+                metro: metro,
                 filename: filename,
                 views: 0,
-                text: text
+                text: text,
+                phone: phone,
+                district: district
             }
         );
         console.log(`New listing created with the following id: ${result.insertedId}`);
@@ -106,6 +124,7 @@ class EventDAO {
                     text: object.text,
                     category: object.category,
                     type: type,
+                    phone: object.phone
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }
                 }
@@ -131,7 +150,8 @@ class EventDAO {
                     text: object.text,
                     category: object.category,
                     type: type,
-                    filename: object.filename
+                    filename: object.filename,
+                    phone: object.phone
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }
                 }
@@ -158,6 +178,49 @@ class EventDAO {
             console.log(`No listings found`);
         }
     }
+
+
+    static async includePhotos(id, photos) {
+
+        const result = await events.update(
+            { _id: new ObjectID(id) },
+            {
+                $set: {
+                    photos: photos
+                }
+            }
+            )
+        
+        if (result) {
+            console.log(`Update a listing in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+
+    }
+
+    static async includeOptionals(body) {
+        console.log(body.params)
+        const result = await events.update(
+            { _id: new ObjectID(body.id) },
+            {
+                $set: {
+                    address: body.params.address,
+                    keywords: body.params.keywords,
+                    geo: body.params.geo
+                }
+            }
+            )
+        
+        if (result) {
+            console.log(`Update a listing in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
 }
 
 module.exports = EventDAO;

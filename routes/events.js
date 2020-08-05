@@ -15,6 +15,17 @@ const storage = multer.diskStorage({
     }
 });
 
+
+
+const storageGallery = multer.diskStorage({
+    destination: (req, file, cb) =>{
+        cb(null, "uploads/events/photos");
+    },
+    filename: (req, file, cb) =>{
+        cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+    }
+});
+
 const fileFilter = (req, file, cb) => {
     if (file.mimetype === "image/png" || file.mimetype === "image/jpg"|| file.mimetype === "image/jpeg") {
         cb(null, true);
@@ -28,6 +39,11 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
+const uploadPhotos = multer({
+    storage: storageGallery,
+    fileFilter: fileFilter
+});
+
 router.get('/', function(req, res, next) {
     res.send('respond with a resource');
 });
@@ -37,7 +53,8 @@ router.get('/read', EventController.index);
 router.post('/update', AuthController.access, upload.single("uploadFile"), EventController.update);
 router.post('/delete', AuthController.access, EventController.delete);
 
+router.post('/photos', AuthController.access, uploadPhotos.array('photos', 12), EventController.gallery)
+router.post('/optional', AuthController.access, EventController.additionally)
 router.get('/read/:id', EventController.single);
-router.get('/search', EventController.search);
 
 module.exports = router;
