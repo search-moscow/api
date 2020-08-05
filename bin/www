@@ -58,8 +58,8 @@ wss.on('connection', function connection(ws) {
 
 function formatAMPM(date) {
 
-    var hours = date.getHours().toLocaleString('en-AU', { timeZone: 'Europe/Moscow' });
-    var minutes = date.getMinutes().toLocaleString('en-AU', { timeZone: 'Europe/Moscow' });
+    var hours = date.toLocaleString('en-US', { hour12: false, hour:'numeric', timeZone: 'Europe/Moscow'  })
+    var minutes = date.toLocaleString('en-US', { hour12: false, minute:'numeric', timeZone: 'Europe/Moscow'  })
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
