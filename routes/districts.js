@@ -12,5 +12,5 @@ router.post('/create', AuthController.access, DistrictController.create);
 router.get('/read', DistrictController.index);
 router.post('/update', AuthController.access, DistrictController.update);
 router.post('/delete', AuthController.access, DistrictController.delete);
-
+router.get('/read/:id', DistrictController.single);
 module.exports = router;

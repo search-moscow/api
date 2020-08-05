@@ -12,5 +12,5 @@ router.post('/create', AuthController.access, MetroController.create);
 router.get('/read', MetroController.index);
 router.post('/update', AuthController.access, MetroController.update);
 router.post('/delete', AuthController.access, MetroController.delete);
-
+router.get('/read/:id', MetroController.single);
 module.exports = router;
