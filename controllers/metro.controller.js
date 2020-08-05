@@ -17,7 +17,8 @@ class MetroController {
             let response  = await MetroDAO.create(
                 req.body.slug,
                 req.body.title,
-                req.body.description
+                req.body.description,
+                req.body.color
             )
             res.json(response)
         } catch (error) {

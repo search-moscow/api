@@ -31,12 +31,13 @@ class MetroDAO {
 
     }
 
-    static async create(slug, title, description) {
+    static async create(slug, title, description, color) {
         const result = await metros.insertOne(
             {
                 slug: slug,
                 title: title,
                 description: description,
+                color: color
             }
         )
         return `New listing created with the following id: ${result.insertedId}`
@@ -60,7 +61,8 @@ class MetroDAO {
               $set: {
                 slug: object.slug,
                 title: object.title,
-                description: object.description
+                description: object.description,
+                color: object.color
               }
             }
             )
