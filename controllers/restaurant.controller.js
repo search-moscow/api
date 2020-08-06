@@ -82,6 +82,7 @@ class RestaurantController {
                     filename,
                     req.body.text,
                     req.body.phone,
+                    req.body.website,
                     req.body.district
                 )
                 
@@ -190,11 +191,13 @@ class RestaurantController {
                 console.error(err)
             }
             
-            for (let i = 0; i < req.body.doc.photos.length; i++) {
-                try {
-                    fs.unlinkSync(path.join(__dirname, '../uploads/restaurants/photos/' + '2x' + req.body.doc.photos[i]))
-                } catch(err) {
-                    console.error(err)
+            if (req.body.doc.photos) {
+                for (let i = 0; i < req.body.doc.photos.length; i++) {
+                    try {
+                        fs.unlinkSync(path.join(__dirname, '../uploads/restaurants/photos/' + '2x' + req.body.doc.photos[i]))
+                    } catch(err) {
+                        console.error(err)
+                    }
                 }
             }
 

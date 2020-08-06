@@ -64,7 +64,7 @@ class EventDAO {
         }
     }
 
-    static async create(slug, title, description, type, metro, filename, text, phone, district) {
+    static async create(slug, title, description, type, metro, filename, text, phone, website, district) {
 
         let status
         if (type == "true") {
@@ -86,6 +86,7 @@ class EventDAO {
                 views: 0,
                 text: text,
                 phone: phone,
+                website: website,
                 district: district
             }
         );
@@ -125,7 +126,8 @@ class EventDAO {
                     metro: object.metro,
                     district: object.district,
                     type: type,
-                    phone: object.phone
+                    phone: object.phone,
+                    website: object.website
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }
                 }
@@ -152,7 +154,8 @@ class EventDAO {
                     category: object.category,
                     type: type,
                     filename: object.filename,
-                    phone: object.phone
+                    phone: object.phone,
+                    website: object.website,
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }
                 }
