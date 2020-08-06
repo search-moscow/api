@@ -66,6 +66,9 @@ class EventDAO {
 
     static async create(slug, title, description, type, metro, filename, text, phone, website, district) {
 
+        let dateAdded = new Date()
+        let lastModified = new Date()
+
         let status
         if (type == "true") {
             status = true
@@ -87,7 +90,9 @@ class EventDAO {
                 text: text,
                 phone: phone,
                 website: website,
-                district: district
+                district: district,
+                dateAdded: dateAdded,
+                lastModified: lastModified
             }
         );
         console.log(`New listing created with the following id: ${result.insertedId}`);
@@ -106,6 +111,8 @@ class EventDAO {
 
     static async update(object) {
         let type
+        let lastModified = new Date()
+
         if (object.type == "true") {
             type = true
         }
@@ -127,7 +134,8 @@ class EventDAO {
                     district: object.district,
                     type: type,
                     phone: object.phone,
-                    website: object.website
+                    website: object.website,
+                    lastModified: lastModified
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }
                 }
@@ -156,6 +164,7 @@ class EventDAO {
                     filename: object.filename,
                     phone: object.phone,
                     website: object.website,
+                    lastModified: lastModified
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }
                 }
