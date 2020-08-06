@@ -214,7 +214,7 @@ class RestaurantDAO {
     }
 
     static async includeOptionals(body) {
-        console.log(body.params)
+        
         const result = await restaurants.update(
             { _id: new ObjectID(body.id) },
             {

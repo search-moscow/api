@@ -214,7 +214,7 @@ class EventDAO {
     }
 
     static async includeOptionals(body) {
-        console.log(body.params)
+
         const result = await events.update(
             { _id: new ObjectID(body.id) },
             {
