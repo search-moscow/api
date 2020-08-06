@@ -122,7 +122,8 @@ class EventDAO {
                     title: object.title,
                     description: object.description,
                     text: object.text,
-                    category: object.category,
+                    metro: object.metro,
+                    district: object.district,
                     type: type,
                     phone: object.phone
                     // tags: [ "software" ],
