@@ -1,7 +1,8 @@
 if (process.env.NODE_ENV == 'production') {
-    process.env.URI = "mongodb://d3c0d3:d3d3c0d3cgjrbyjrb@89.108.103.89:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false";
-} else {
+    // process.env.URI = "mongodb://d3c0d3:d3d3c0d3cgjrbyjrb@89.108.103.89:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false";
     process.env.URI = "mongodb://mongo:27017/";
+} else {
+    process.env.URI = "mongodb://localhost:27017/";
 }
 
 var express = require('express');
@@ -10,6 +11,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
 const MongoClient = require('mongodb');
+const expressSitemapXml = require('express-sitemap-xml')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -51,6 +53,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(expressSitemapXml(getUrls, 'https://search.moscow/restaurants/'))
+ 
+async function getUrls () {
+
+    let response = await RestaurantDAO.getAll()
+    let urls = response.map(function(res) {
+        return res.slug
+    })
+    return urls
+  }
 
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);
