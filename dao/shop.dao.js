@@ -21,7 +21,7 @@ class ShopDAO {
     static async getAll() {
         const cursor = await shops
         .aggregate([
-            // { $match: { type: true } },
+            { $match: { type: true } },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
