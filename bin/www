@@ -8,7 +8,6 @@ var app = require('../app');
 var debug = require('debug')('search-moscow:server');
 var https = require('https');
 
-
 var privateKey
 var certificate
 
@@ -21,7 +20,7 @@ if (process.env.NODE_ENV == 'production') {
 }
 
 var credentials = {key: privateKey, cert: certificate};
-const WebSocket = require('ws');
+
 /**
  * Get port from environment and store in Express.
  */
@@ -30,43 +29,10 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * Create HTTPS server.
  */
 
 var server = https.createServer(credentials, app);
-
-/**
- * Create WebSocket server.
- */
-// Simple server
-const wss = new WebSocket.Server({ server });
- 
-wss.on('connection', function connection(ws) {
-  console.log('user connect')
-  ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
-  });
-  
-  ws.send(formatAMPM(new Date()));
-
-  setInterval(function timeout() {
-    ws.send(formatAMPM(new Date()));
-  }, 1000);
-
-});
-
-
-function formatAMPM(date) {
-
-    var hours = date.toLocaleString('en-US', { hour12: false, hour:'numeric', timeZone: 'Europe/Moscow'  })
-    var minutes = date.toLocaleString('en-US', { hour12: false, minute:'numeric', timeZone: 'Europe/Moscow'  })
-    var ampm = hours >= 12 ? 'pm' : 'am';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0'+minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
-    return strTime;
-  }
 
 /**
  * Listen on provided port, on all network interfaces.
