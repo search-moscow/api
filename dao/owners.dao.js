@@ -81,6 +81,26 @@ class RestaurantDAO {
             console.log(`No listings found`);
         }
     }
+    static async check(id) {
+        const cursor = owners
+        .aggregate([
+            { $match:{user_id: id}},
+            { $addFields: { "shop": { $toObjectId: "$shop_id"}}},
+            { $lookup: { from: "shops", localField: "shop", foreignField: "_id", as: "shops" } }
+            // { $limit: 1 }
+        ]);
+
+        const result = await cursor.toArray();
+
+                          
+        if (result) {
+            console.log(result)
+            console.log(`Check a listing in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
 
 }
 

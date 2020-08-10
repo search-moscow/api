@@ -54,6 +54,19 @@ class OwnerController {
             res.status(500).json(error);
         }
     }
+
+    static async check(req, res) {
+        let id = req.params.id
+        
+        try {
+            let response  = await OwnersDAO.check(id)
+            res.json(response)
+
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
 }
 
 module.exports = OwnerController;

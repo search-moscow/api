@@ -23,13 +23,18 @@ class AuthController {
             //   return
             // }
     
+            if(!user.email) {
+                res.status(401).json({ status: "fail" })
+                return
+            }
+
             if (UsersDAO.checkAdmin(user.email)) {
             //   const report = await CommentsDAO.mostActiveCommenters()
             //   res.json({ report })
                 next()
             } else {
-                // return
                 res.status(401).json({ status: "fail" })
+                return
             }
     
             // res.status(401).json({ status: "fail" })

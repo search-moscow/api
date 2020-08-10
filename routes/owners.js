@@ -13,4 +13,5 @@ router.get('/read', OwnerController.index);
 router.post('/update', AuthController.access, OwnerController.update);
 router.post('/delete', AuthController.access, OwnerController.delete);
 router.get('/read/:id', OwnerController.single);
+router.get('/check/:id', OwnerController.check);
 module.exports = router;
