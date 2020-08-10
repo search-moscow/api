@@ -23,6 +23,7 @@ var eventsRouter = require('./routes/events');
 var shopsRouter = require('./routes/shops');
 var searchRouter = require('./routes/search');
 var widgetRouter = require('./routes/widget');
+var ownersRouter = require('./routes/owners');
 
 var UsersDAO = require('./dao/users.dao');
 var ItemDAO = require('./dao/item.dao');
@@ -32,6 +33,7 @@ var DistrictDAO = require('./dao/district.dao');
 var RestaurantDAO = require('./dao/restaurant.dao');
 var EventDAO = require('./dao/event.dao');
 var ShopDAO = require('./dao/shop.dao');
+var OwnersDAO = require('./dao/owners.dao');
 
 var app = express();
 
@@ -47,6 +49,7 @@ MongoClient(process.env.URI).catch(err => {
     await EventDAO.injectDB(client)
     await ShopDAO.injectDB(client)
     await DistrictDAO.injectDB(client)
+    await OwnersDAO.injectDB(client)
 })
 
 app.use(cors())
@@ -80,6 +83,7 @@ app.use('/api/events', eventsRouter);
 app.use('/api/shops', shopsRouter);
 app.use('/api/districts', districtsRouter);
 app.use('/api/widget', widgetRouter);
+app.use('/api/owners', ownersRouter);
 
 
 
