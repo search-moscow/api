@@ -64,6 +64,33 @@ class ShopDAO {
         }
     }
 
+
+    static async getById(id) {
+        const cursor = shops
+            .aggregate([
+                { $match:{ _id: new ObjectID(id)  }},
+                { $addFields: { "metro": { $toObjectId: "$metro"}}},
+                { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
+                { $addFields: { "district": { $toObjectId: "$district"}}},
+                { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+                { $limit: 1 }
+            ]);
+    
+        const result = await cursor.toArray();
+                              
+        if (result) {
+            await shops.update(
+                { slug: id },
+                { $inc: { views: 1} }
+            );
+    
+            console.log(`Found a listing in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
     static async create(slug, title, description, type, metro, filename, text, phone, website, district) {
 
         let dateAdded = new Date()

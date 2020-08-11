@@ -1,5 +1,8 @@
 var User = require('../models/user');
 var UsersDAO = require('../dao/users.dao');
+var OwnersDAO = require('../dao/owners.dao')
+var fs = require('fs');
+var path = require('path');
 
 class AuthController {
 
@@ -42,6 +45,7 @@ class AuthController {
             res.status(500)
         }
     }
+
 }
 
 module.exports = AuthController;

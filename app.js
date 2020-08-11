@@ -52,7 +52,11 @@ MongoClient(process.env.URI).catch(err => {
     await OwnersDAO.injectDB(client)
 })
 
-app.use(cors())
+app.use(cors({
+    origin:
+      ["http://localhost:4200", "https://search.moscow"]
+    , credentials: true
+  }))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
