@@ -63,15 +63,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(expressSitemapXml(getUrls, 'https://search.moscow/restaurants/'))
+app.use(expressSitemapXml(getUrls, 'https://search.moscow/'))
  
 async function getUrls () {
+    let restaurants = await RestaurantDAO.getAll()
+    let events = await EventDAO.getAll()
+    let shops = await ShopDAO.getAll()
+    let urls
 
-    let response = await RestaurantDAO.getAll()
-    let urls = response.map(function(res) {
-        return res.slug
-    })
-    return urls
+    urls1 = restaurants.map((res) => { return 'restaurants/' + res.slug })
+    urls2 = events.map((res) => { return 'events/' + res.slug })
+    urls3 = shops.map((res) => { return 'shops/' + res.slug })
+
+    return [].concat(urls1, urls2, urls3)
   }
 
 app.use('/', indexRouter);
