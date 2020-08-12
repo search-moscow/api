@@ -208,18 +208,6 @@ class ShopDAO {
         }
     }
 
-    static async search(text) {
-        const cursor = await shops.find( { $text: { $search: text } });
-        const results = await cursor.toArray();
-                          
-        if (results) {
-            console.log(`Found a listing in the collection:'`);
-            return results
-        } else {
-            console.log(`No listings found`);
-        }
-    }
-
     static async includePhotos(id, photos) {
 
         const result = await shops.update(

@@ -25,6 +25,7 @@ var searchRouter = require('./routes/search');
 var widgetRouter = require('./routes/widget');
 var ownersRouter = require('./routes/owners');
 
+var SearchDAO = require('./dao/search.dao');
 var UsersDAO = require('./dao/users.dao');
 var ItemDAO = require('./dao/item.dao');
 var CategoryDAO = require('./dao/category.dao');
@@ -41,6 +42,7 @@ MongoClient(process.env.URI).catch(err => {
     console.error(err.stack)
     process.exit(1)
 }).then(async client => {
+  await SearchDAO.injectDB(client)
     await UsersDAO.injectDB(client)
     await ItemDAO.injectDB(client)
     await CategoryDAO.injectDB(client)

@@ -180,19 +180,6 @@ class EventDAO {
         }
     }
 
-    static async search(text) {
-        const cursor = await events.find( { $text: { $search: text } });
-        const results = await cursor.toArray();
-                          
-        if (results) {
-            console.log(`Found a listing in the collection:'`);
-            return results
-        } else {
-            console.log(`No listings found`);
-        }
-    }
-
-
     static async includePhotos(id, photos) {
 
         const result = await events.update(
