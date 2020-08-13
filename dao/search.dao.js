@@ -26,21 +26,21 @@ class RestaurantDAO {
         const resultsRestaurants = await restaurants
             .aggregate([
                 { $match: { $text: { $search: text } } },
-                { $addFields: { "type":"restaurants" }},
+                { $addFields: { "dao":"restaurants" }},
                 { $sort: { score: { $meta: "textScore" } } },
             ]).toArray();
               
         const resultsEvents = await events
             .aggregate([
                 { $match: { $text: { $search: text } } },
-                { $addFields: { "type":"events" }},
+                { $addFields: { "dao":"events" }},
                 { $sort: { score: { $meta: "textScore" } } },
             ]).toArray();
 
         const resultsShops = await shops
             .aggregate([
                 { $match: { $text: { $search: text } } },
-                { $addFields: { "type":"shops" }},
+                { $addFields: { "dao":"shops" }},
                 { $sort: { score: { $meta: "textScore" } } },
             ]).toArray();
             
