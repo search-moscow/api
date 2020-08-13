@@ -48,6 +48,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/create', AuthController.access, upload.single("uploadFile"), ShopController.create);
 router.get('/read', ShopController.index);
+router.get('/gethome', ShopController.gethome);
 router.post('/update', AuthController.access, upload.single("uploadFile"), ShopController.update);
 router.post('/delete', AuthController.access, ShopController.delete);
 

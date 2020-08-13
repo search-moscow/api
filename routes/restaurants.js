@@ -48,6 +48,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/create', AuthController.access, upload.single("uploadFile"), RestaurantController.create);
 router.get('/read', RestaurantController.index);
+router.get('/gethome', RestaurantController.gethome);
 router.post('/update', AuthController.access, upload.single("uploadFile"), RestaurantController.update);
 router.post('/delete', AuthController.access, RestaurantController.delete);
 

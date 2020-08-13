@@ -38,6 +38,27 @@ class ShopDAO {
         }
     }
 
+    static async gethome() {
+        const cursor = await shops
+        .aggregate([
+            { $match: { type: true } },
+            { $addFields: { "metro": { $toObjectId: "$metro"}}},
+            { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
+            { $addFields: { "district": { $toObjectId: "$district"}}},
+            { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+            { $sort: {_id: -1} },
+            { $limit: 4}
+        ]);
+        const results = await cursor.toArray();
+                          
+        if (results) {
+            console.log(`Found a listing in the collection:'`);
+            return results
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
     static async getBy(id) {
         const cursor = shops
             .aggregate([

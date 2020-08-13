@@ -50,6 +50,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/create', AuthController.access, upload.single("uploadFile"), EventController.create);
 router.get('/read', EventController.index);
+router.get('/gethome', EventController.gethome);
 router.post('/update', AuthController.access, upload.single("uploadFile"), EventController.update);
 router.post('/delete', AuthController.access, EventController.delete);
 

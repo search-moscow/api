@@ -14,6 +14,15 @@ class ShopController {
         }
     }
     
+    static async gethome(req, res) {
+        try {
+            let response  = await ShopDAO.gethome()
+            res.json(response)
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
     static async single(req, res) {
         try {
             let response  = await ShopDAO.getBy(req.params.id)
