@@ -26,6 +26,8 @@ class ShopDAO {
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
             { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+            { $addFields: { "category": { $toObjectId: "$category"}}},
+            { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
             { $sort: {_id: -1} }
         ]);
         const results = await cursor.toArray();
@@ -46,6 +48,8 @@ class ShopDAO {
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
             { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+            { $addFields: { "category": { $toObjectId: "$category"}}},
+            { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
             { $sort: {_id: -1} },
             { $limit: 4}
         ]);
@@ -112,7 +116,7 @@ class ShopDAO {
         }
     }
 
-    static async create(slug, title, description, type, metro, filename, text, phone, website, district) {
+    static async create(slug, title, description, type, metro, filename, text, phone, website, district, category) {
 
         let dateAdded = new Date()
         let lastModified = new Date()
@@ -139,6 +143,7 @@ class ShopDAO {
                 phone: phone,
                 website: website,
                 district: district,
+                category: category,
                 dateAdded: dateAdded,
                 lastModified: lastModified
             }
@@ -180,6 +185,7 @@ class ShopDAO {
                     text: object.text,
                     metro: object.metro,
                     district: object.district,
+                    category: object.category,
                     type: type,
                     phone: object.phone,
                     website: object.website,
@@ -209,6 +215,7 @@ class ShopDAO {
                     text: object.text,
                     metro: object.metro,
                     district: object.district,
+                    category: object.category,
                     type: type,
                     filename: object.filename,
                     phone: object.phone,
