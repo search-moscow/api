@@ -14,6 +14,7 @@ class RestaurantDAO {
             restaurants = await moscow.collection("restaurants")
             events = await moscow.collection("events")
             shops = await moscow.collection("shops")
+            services = await moscow.collection("services")
         //   this.movies = movies // this is only for testing
         } catch (e) {
           console.error(
@@ -43,8 +44,15 @@ class RestaurantDAO {
                 { $addFields: { "dao":"shops" }},
                 { $sort: { score: { $meta: "textScore" } } },
             ]).toArray();
+
+        const resultsServices = await services
+            .aggregate([
+                { $match: { $text: { $search: text } } },
+                { $addFields: { "dao":"services" }},
+                { $sort: { score: { $meta: "textScore" } } },
+            ]).toArray();
             
-        const results = [].concat(resultsRestaurants, resultsEvents, resultsShops)
+        const results = [].concat(resultsRestaurants, resultsEvents, resultsShops, resultsServices)
 
         if (results) {
             console.log(`Found a listing in the collection:'`);

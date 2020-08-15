@@ -21,6 +21,7 @@ var districtsRouter = require('./routes/districts');
 var restaurantsRouter = require('./routes/restaurants');
 var eventsRouter = require('./routes/events');
 var shopsRouter = require('./routes/shops');
+var servicesRouter = require('./routes/services');
 var searchRouter = require('./routes/search');
 var widgetRouter = require('./routes/widget');
 var ownersRouter = require('./routes/owners');
@@ -34,6 +35,7 @@ var DistrictDAO = require('./dao/district.dao');
 var RestaurantDAO = require('./dao/restaurant.dao');
 var EventDAO = require('./dao/event.dao');
 var ShopDAO = require('./dao/shop.dao');
+var ServiceDAO = require('./dao/service.dao');
 var OwnersDAO = require('./dao/owners.dao');
 
 var app = express();
@@ -50,6 +52,7 @@ MongoClient(process.env.URI).catch(err => {
     await RestaurantDAO.injectDB(client)
     await EventDAO.injectDB(client)
     await ShopDAO.injectDB(client)
+    await ServiceDAO.injectDB(client)
     await DistrictDAO.injectDB(client)
     await OwnersDAO.injectDB(client)
 })
@@ -71,11 +74,13 @@ async function getUrls () {
     let restaurants = await RestaurantDAO.getAll()
     let events = await EventDAO.getAll()
     let shops = await ShopDAO.getAll()
+    let services = await ServiceDAO.getAll()
     let urls
 
     urls1 = restaurants.map((res) => { return 'restaurants/' + res.slug })
     urls2 = events.map((res) => { return 'events/' + res.slug })
     urls3 = shops.map((res) => { return 'shops/' + res.slug })
+    urls3 = services.map((res) => { return 'services/' + res.slug })
 
     return [].concat(urls1, urls2, urls3)
   }
@@ -91,6 +96,7 @@ app.use('/api/metros', metrosRouter);
 app.use('/api/restaurants', restaurantsRouter);
 app.use('/api/events', eventsRouter);
 app.use('/api/shops', shopsRouter);
+app.use('/api/services', servicesRouter);
 app.use('/api/districts', districtsRouter);
 app.use('/api/widget', widgetRouter);
 app.use('/api/owners', ownersRouter);
