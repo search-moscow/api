@@ -3,6 +3,7 @@ ObjectID = require('mongodb').ObjectID
 let restaurants
 let events
 let shops
+let services
 let moscow
 
 class RestaurantDAO {
