@@ -59,7 +59,7 @@ MongoClient(process.env.URI).catch(err => {
 
 app.use(cors({
     origin:
-      ["http://localhost:4200", "https://search.moscow"]
+      ["http://localhost:4200", "https://search.moscow", "http://localhost:4000", "http://search.moscow:4000"]
     , credentials: true
   }))
 app.use(logger('dev'));
