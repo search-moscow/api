@@ -92,7 +92,9 @@ class EventController {
                     req.body.text,
                     req.body.phone,
                     req.body.website,
-                    req.body.district
+                    req.body.district,
+                    req.body.startDate,
+                    req.body.finishDate
                 )
                 
                 res.json(response)

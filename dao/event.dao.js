@@ -85,7 +85,7 @@ class EventDAO {
         }
     }
 
-    static async create(slug, title, description, type, metro, filename, text, phone, website, district) {
+    static async create(slug, title, description, type, metro, filename, text, phone, website, district, startDate, finishDate) {
 
         let dateAdded = new Date()
         let lastModified = new Date()
@@ -112,6 +112,8 @@ class EventDAO {
                 phone: phone,
                 website: website,
                 district: district,
+                startDate: startDate,
+                finishDate: finishDate,
                 dateAdded: dateAdded,
                 lastModified: lastModified
             }
@@ -156,6 +158,8 @@ class EventDAO {
                     type: type,
                     phone: object.phone,
                     website: object.website,
+                    startDate: object.startDate,
+                    finishDate: object.finishDate,
                     lastModified: lastModified
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }
@@ -185,6 +189,8 @@ class EventDAO {
                     filename: object.filename,
                     phone: object.phone,
                     website: object.website,
+                    startDate: object.startDate,
+                    finishDate: object.finishDate,
                     lastModified: lastModified
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }
