@@ -43,6 +43,21 @@ class OwnerController {
         }
     }
 
+    static async createOwnerRestaurant(req, res) {
+        console.log(req.body.restaurant)
+        try {
+                
+            let response = await OwnersDAO.createOfRestaurant(
+                req.body.restaurant,
+                req.body.user
+            )
+            
+            res.json(response)
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
     static async delete(req, res) {
         let id = req.body.doc._id
         

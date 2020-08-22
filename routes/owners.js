@@ -9,6 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/create', AuthController.access, OwnerController.create);
+router.post('/create-restaurant', AuthController.access, OwnerController.createOwnerRestaurant);
 router.get('/read', OwnerController.index);
 router.post('/update', AuthController.access, OwnerController.update);
 router.post('/delete', AuthController.access, OwnerController.delete);

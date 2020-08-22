@@ -36,6 +36,19 @@ class RestaurantDAO {
             {
                 shop_id: shop,
                 user_id: user,
+                type: 'shop'
+            }
+        );
+        console.log(`New listing created with the following id: ${result.insertedId}`);
+    }
+
+    static async createOfRestaurant(restaurant, user) {
+
+        const result = await owners.insertOne(
+            {
+                document_id: restaurant,
+                user_id: user,
+                type: 'restaurant'
             }
         );
         console.log(`New listing created with the following id: ${result.insertedId}`);
@@ -87,6 +100,27 @@ class RestaurantDAO {
             { $match:{user_id: id}},
             { $addFields: { "shop": { $toObjectId: "$shop_id"}}},
             { $lookup: { from: "shops", localField: "shop", foreignField: "_id", as: "shops" } }
+            // { $limit: 1 }
+        ]);
+
+        const result = await cursor.toArray();
+
+                          
+        if (result) {
+            console.log(result)
+            console.log(`Check a listing in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
+    static async checkOfRestaurants(id) {
+        const cursor = owners
+        .aggregate([
+            { $match:{user_id: id}},
+            { $addFields: { "restaurant": { $toObjectId: "$restaurant_id"}}},
+            { $lookup: { from: "restaurants", localField: "restaurant", foreignField: "_id", as: "restaurants" } }
             // { $limit: 1 }
         ]);
 
