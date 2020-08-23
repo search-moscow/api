@@ -53,7 +53,8 @@ class LunchController {
                 req.body.finishDate,
                 req.body.timeFrom,
                 req.body.timeTo,
-                req.body.lunches
+                req.body.lunches,
+                req.body.dishes
             )
             
             res.json(response)

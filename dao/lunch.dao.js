@@ -81,7 +81,7 @@ class LunchDAO {
         }
     }
 
-    static async create(slug, title, description, text, restaurant, startDate, finishDate, timeFrom, timeTo, items) {
+    static async create(slug, title, description, text, restaurant, startDate, finishDate, timeFrom, timeTo, items, dishes) {
 
         let dateAdded = new Date()
         let lastModified = new Date()
@@ -109,6 +109,7 @@ class LunchDAO {
                 timeFrom: timeFrom,
                 timeTo: timeTo,
                 items: items,
+                dishes: dishes,
                 dateAdded: dateAdded,
                 lastModified: lastModified
             }
