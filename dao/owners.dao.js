@@ -36,7 +36,7 @@ class RestaurantDAO {
             {
                 shop_id: shop,
                 user_id: user,
-                type: 'shop'
+                type: 'shops'
             }
         );
         console.log(`New listing created with the following id: ${result.insertedId}`);
@@ -48,7 +48,7 @@ class RestaurantDAO {
             {
                 document_id: restaurant,
                 user_id: user,
-                type: 'restaurant'
+                type: 'restaurants'
             }
         );
         console.log(`New listing created with the following id: ${result.insertedId}`);
