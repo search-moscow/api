@@ -20,6 +20,7 @@ var metrosRouter = require('./routes/metros');
 var districtsRouter = require('./routes/districts');
 var restaurantsRouter = require('./routes/restaurants');
 var eventsRouter = require('./routes/events');
+var lunchesRouter = require('./routes/lunches');
 var shopsRouter = require('./routes/shops');
 var servicesRouter = require('./routes/services');
 var searchRouter = require('./routes/search');
@@ -34,6 +35,7 @@ var MetroDAO = require('./dao/metro.dao');
 var DistrictDAO = require('./dao/district.dao');
 var RestaurantDAO = require('./dao/restaurant.dao');
 var EventDAO = require('./dao/event.dao');
+var LunchDAO = require('./dao/lunch.dao');
 var ShopDAO = require('./dao/shop.dao');
 var ServiceDAO = require('./dao/service.dao');
 var OwnersDAO = require('./dao/owners.dao');
@@ -51,6 +53,7 @@ MongoClient(process.env.URI).catch(err => {
     await MetroDAO.injectDB(client)
     await RestaurantDAO.injectDB(client)
     await EventDAO.injectDB(client)
+    await LunchDAO.injectDB(client)
     await ShopDAO.injectDB(client)
     await ServiceDAO.injectDB(client)
     await DistrictDAO.injectDB(client)
@@ -95,6 +98,7 @@ app.use('/api/categories', categoriesRouter);
 app.use('/api/metros', metrosRouter);
 app.use('/api/restaurants', restaurantsRouter);
 app.use('/api/events', eventsRouter);
+app.use('/api/lunches', lunchesRouter);
 app.use('/api/shops', shopsRouter);
 app.use('/api/services', servicesRouter);
 app.use('/api/districts', districtsRouter);
