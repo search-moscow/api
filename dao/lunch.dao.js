@@ -59,10 +59,8 @@ class LunchDAO {
         const cursor = lunches
             .aggregate([
                 { $match:{slug: id}},
-                { $addFields: { "metro": { $toObjectId: "$metro"}}},
-                { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
-                { $addFields: { "district": { $toObjectId: "$district"}}},
-                { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+                { $addFields: { "restaurant": { $toObjectId: "$restaurant"}}},
+                { $lookup: { from: "restaurants", localField: "restaurant", foreignField: "_id", as: "restaurants" } },
                 { $limit: 1 }
             ]);
     
@@ -227,47 +225,6 @@ class LunchDAO {
             } else {
                 console.log(`No listings found`);
             }
-        }
-    }
-
-    static async includePhotos(id, photos) {
-
-        const result = await lunches.update(
-            { _id: new ObjectID(id) },
-            {
-                $set: {
-                    photos: photos
-                }
-            }
-            )
-        
-        if (result) {
-            console.log(`Update a listing in the collection:'`);
-            return result
-        } else {
-            console.log(`No listings found`);
-        }
-
-    }
-
-    static async includeOptionals(body) {
-
-        const result = await lunches.update(
-            { _id: new ObjectID(body.id) },
-            {
-                $set: {
-                    address: body.params.address,
-                    keywords: body.params.keywords,
-                    geo: body.params.geo
-                }
-            }
-            )
-        
-        if (result) {
-            console.log(`Update a listing in the collection:'`);
-            return result
-        } else {
-            console.log(`No listings found`);
         }
     }
 

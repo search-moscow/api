@@ -148,29 +148,8 @@ class LunchController {
     
     static async delete(req, res) {
         let id = req.body.doc._id
-        let filename = req.body.doc.filename
 
         try {
-
-            try {
-                fs.unlinkSync(path.join(__dirname, '../uploads/events/1x/' + '1x' + filename))
-                fs.unlinkSync(path.join(__dirname, '../uploads/events/2x/' + '2x' + filename))
-                fs.unlinkSync(path.join(__dirname, '../uploads/events/3x/' + '3x' + filename))
-                fs.unlinkSync(path.join(__dirname, '../uploads/events/originals/' + filename))
-            } catch(err) {
-                console.error(err)
-            }
-
-            if (req.body.doc.photos) {
-                for (let i = 0; i < req.body.doc.photos.length; i++) {
-                    try {
-                        fs.unlinkSync(path.join(__dirname, '../uploads/events/photos/' + '2x' + req.body.doc.photos[i]))
-                    } catch(err) {
-                        console.error(err)
-                    }
-                }
-            }
-
             let response  = await LunchDAO.delete(id)
             res.json(response)
 
@@ -180,7 +159,6 @@ class LunchController {
     }
 
     static async enable(req, res) {
-        console.log(1)
         let id = req.body.doc._id
 
         try {
@@ -201,80 +179,6 @@ class LunchController {
 
         } catch (error) {
             res.status(500).json(error);
-        }
-    }
-
-
-    static async gallery(req, res) {
-        
-        let filenames = []
-        
-        try {
-            let filesdata = req.files
-
-            if (!filesdata) {
-                res.json("Ошибка при загрузке файла");
-            } else {
-
-                let current  = await LunchDAO.getBy(req.body.slug)
-                // If have photos 
-                
-                if (current[0].photos) {
-                    for (let i = 0; i < current[0].photos.length; i++) {
-                        try {
-                            fs.unlinkSync(path.join(__dirname, '../uploads/events/photos/' + '2x' + current[0].photos[i]))
-                        } catch(err) {
-                            console.error(err)
-                        }
-                    }
-                }
-
-
-                for (let i = 0; i < req.files.length; i++) {
-                    let filename = filesdata[i].filename;
-                    filenames.push(filesdata[i].filename)
-                    
-                    var buffer = fs.readFileSync(path.join(__dirname, '../uploads/events/photos/' + filename));
-
-
-                    sharp(buffer)
-                    .resize(2000, 1000)
-                    .toFile(path.join(__dirname, '../uploads/events/photos/' + '2x' + filename), (err, info) => { 
-                  
-                      if (err) {
-                        throw err;
-                      }
-                  
-                    });
-
-                    try {
-                        fs.unlinkSync(path.join(__dirname, '../uploads/events/photos/' + filename))
-                    } catch(err) {
-                        console.error(err)
-                    }
-
-                }
-
-                let response  = await LunchDAO.includePhotos(req.body.id, filenames)
-                
-                res.json(response)
-
-
-            }
-
-        } catch (error) {
-            res.status(500).json(error)
-        }
-    }
-
-
-    static async additionally(req, res) {
-        try {
-            let response  = await LunchDAO.includeOptionals(req.body)
-                
-            res.json(response)
-        } catch (error) {
-            res.status(500).json(error)
         }
     }
 
