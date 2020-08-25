@@ -21,7 +21,7 @@ class LunchDAO {
     static async getAll() {
         const cursor = await lunches
         .aggregate([
-            // { $match: { type: true } },
+            { $match: { status: true } },
             { $addFields: { "restaurant": { $toObjectId: "$restaurant"}}},
             { $lookup: { from: "restaurants", localField: "restaurant", foreignField: "_id", as: "restaurants" } },
             { $sort: {_id: -1} }
@@ -39,7 +39,7 @@ class LunchDAO {
     static async gethome() {
         const cursor = await lunches
         .aggregate([
-            { $match: { status: true } },
+            // { $match: { status: true } },
             { $addFields: { "restaurant": { $toObjectId: "$restaurant"}}},
             { $lookup: { from: "restaurants", localField: "restaurant", foreignField: "_id", as: "restaurants" } },
             { $sort: {_id: -1} },

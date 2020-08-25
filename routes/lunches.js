@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/create', LunchController.create);
 router.get('/read', LunchController.index);
-router.get('/gethome', LunchController.gethome);
+router.get('/gethome', AuthController.access, LunchController.gethome);
 router.post('/update', AuthController.access, LunchController.update);
 router.post('/delete', AuthController.access, LunchController.delete);
 router.post('/enable', AuthController.access, LunchController.enable);
