@@ -24,8 +24,23 @@ class LunchDAO {
             { $match: { status: true } },
             { $addFields: { "restaurant": { $toObjectId: "$restaurant"}}},
             { $lookup: { from: "restaurants", localField: "restaurant", foreignField: "_id", as: "restaurants" } },
-            { $sort: {_id: -1} }
+            { $unwind: "$restaurants" },
+            { $addFields: { "restaurants.metro": { $toObjectId: "$restaurants.metro"}}},
+            { $lookup: { from: "metros", localField: "restaurants.metro", foreignField: "_id", as: "restaurants.metros" } },
+            { $addFields: { "restaurants.district": { $toObjectId: "$restaurants.district"}}},
+            { $lookup: { from: "districts", localField: "restaurants.district", foreignField: "_id", as: "restaurants.districts" } },
+            // { $arrayElemAt: [] }
+            // { $match: {'restaurants.0.type': true} },
+            // { $match: {status: true} },
+            // { $elemMatch: { restaurants: 0 } }
+            // restaurants.metros: "1"
+            // { $sort: {_id: -1} }
         ]);
+
+        // await cursor.aggregate([
+        //     { $match: { status: true } },
+        // ])
+
         const results = await cursor.toArray();
                           
         if (results) {
