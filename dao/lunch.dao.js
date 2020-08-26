@@ -76,6 +76,11 @@ class LunchDAO {
                 { $match:{slug: id}},
                 { $addFields: { "restaurant": { $toObjectId: "$restaurant"}}},
                 { $lookup: { from: "restaurants", localField: "restaurant", foreignField: "_id", as: "restaurants" } },
+                { $unwind: "$restaurants" },
+                { $addFields: { "restaurants.metro": { $toObjectId: "$restaurants.metro"}}},
+                { $lookup: { from: "metros", localField: "restaurants.metro", foreignField: "_id", as: "restaurants.metros" } },
+                { $addFields: { "restaurants.district": { $toObjectId: "$restaurants.district"}}},
+                { $lookup: { from: "districts", localField: "restaurants.district", foreignField: "_id", as: "restaurants.districts" } },
                 { $limit: 1 }
             ]);
     
