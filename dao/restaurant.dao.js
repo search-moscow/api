@@ -116,7 +116,13 @@ class RestaurantDAO {
                 lastModified: lastModified
             }
         );
-        console.log(`New listing created with the following id: ${result.insertedId}`);
+        if (result) {
+            console.log(`New listing created with the following id: ${result.insertedId}`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+
     }
     
     static async delete(id) {

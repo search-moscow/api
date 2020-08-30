@@ -1,4 +1,5 @@
 var RestauranttDAO = require('../dao/restaurant.dao');
+var ActivityDAO = require('../dao/activity.dao');
 var fs = require('fs');
 var path = require('path');
 var sharp = require('sharp');
@@ -95,6 +96,8 @@ class RestaurantController {
                     req.body.website,
                     req.body.district
                 )
+                
+                await ActivityDAO.create("restaurants", response.ops[0].slug, response.ops[0].title, response.ops[0].filename, response.ops[0].dateAdded)
                 
                 res.json(response)
             }
