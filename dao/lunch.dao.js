@@ -19,9 +19,14 @@ class LunchDAO {
     }
 
     static async getAll() {
+
+        // var start = new Date(2020, 7, 28);
+        // var end = new Date(2020, 9, 1);
+
         const cursor = await lunches
         .aggregate([
-            { $match: { status: true } },
+            { $match: { status: true }},
+            // { $match: { status: true, dateAdded: {$gte: start, $lt: end} } },
             { $addFields: { "restaurant": { $toObjectId: "$restaurant"}}},
             { $lookup: { from: "restaurants", localField: "restaurant", foreignField: "_id", as: "restaurants" } },
             { $unwind: "$restaurants" },
@@ -34,7 +39,7 @@ class LunchDAO {
             // { $match: {status: true} },
             // { $elemMatch: { restaurants: 0 } }
             // restaurants.metros: "1"
-            // { $sort: {_id: -1} }
+            { $sort: {_id: -1} }
         ]);
 
         // await cursor.aggregate([
