@@ -31,13 +31,12 @@ class ActivityDAO {
 
     }
 
-    static async create(dao, slug, title, dateAdded, filename) {
+    static async create(dao, slug, title, dateAdded) {
         const result = await activities.insertOne(
             {
                 dao: dao,
                 slug: slug,
                 title: title,
-                filename: filename,
                 dateAdded: dateAdded
             }
         )

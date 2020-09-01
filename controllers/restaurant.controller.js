@@ -97,7 +97,7 @@ class RestaurantController {
                     req.body.district
                 )
                 
-                await ActivityDAO.create("restaurants", response.ops[0].slug, response.ops[0].title, response.ops[0].filename, response.ops[0].dateAdded)
+                await ActivityDAO.create("restaurants", response.ops[0].slug, response.ops[0].title, response.ops[0].dateAdded)
                 
                 res.json(response)
             }
