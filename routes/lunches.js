@@ -17,5 +17,6 @@ router.post('/enable', AuthController.access, LunchController.enable);
 router.post('/disable', AuthController.access, LunchController.disable);
 
 router.get('/read/:id', LunchController.single);
+router.get('/getby/:id', LunchController.getBy);
 
 module.exports = router;

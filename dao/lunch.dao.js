@@ -75,7 +75,7 @@ class LunchDAO {
         }
     }
 
-    static async getBy(id) {
+    static async single(id) {
         const cursor = lunches
             .aggregate([
                 { $match:{slug: id}},
@@ -103,6 +103,38 @@ class LunchDAO {
             console.log(`No listings found`);
         }
     }
+
+
+    static async getBy(id) {
+        console.log('SLUG OR ID', id)
+        const cursor = lunches
+            .aggregate([
+                { $match:{restaurant: id}},
+                { $addFields: { "restaurant": { $toObjectId: "$restaurant"}}},
+                { $lookup: { from: "restaurants", localField: "restaurant", foreignField: "_id", as: "restaurants" } },
+                { $unwind: "$restaurants" },
+                { $addFields: { "restaurants.metro": { $toObjectId: "$restaurants.metro"}}},
+                { $lookup: { from: "metros", localField: "restaurants.metro", foreignField: "_id", as: "restaurants.metros" } },
+                { $addFields: { "restaurants.district": { $toObjectId: "$restaurants.district"}}},
+                { $lookup: { from: "districts", localField: "restaurants.district", foreignField: "_id", as: "restaurants.districts" } },
+                // { $limit: 1 }
+            ]);
+    
+        const result = await cursor.toArray();
+                              
+        if (result) {
+            await lunches.update(
+                { slug: id },
+                { $inc: { views: 1} }
+            );
+    
+            console.log(`Found a listing in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
 
     static async create(slug, title, description, text, restaurant, startDate, finishDate, timeFrom, timeTo, items, dishes) {
 

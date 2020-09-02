@@ -1,4 +1,5 @@
 var LunchDAO = require('../dao/lunch.dao');
+var ActivityDAO = require('../dao/activity.dao');
 var fs = require('fs');
 var path = require('path');
 var sharp = require('sharp');
@@ -24,6 +25,15 @@ class LunchController {
     }
     
     static async single(req, res) {
+        try {
+            let response  = await LunchDAO.single(req.params.id)
+            res.json(response) 
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    static async getBy(req, res) {
         try {
             let response  = await LunchDAO.getBy(req.params.id)
             res.json(response) 
@@ -163,6 +173,9 @@ class LunchController {
 
         try {
             let response  = await LunchDAO.enable(id)
+
+            await ActivityDAO.create("lunches", req.body.doc.slug, req.body.doc.title, req.body.doc.dateAdded)
+            
             res.json(response)
 
         } catch (error) {
