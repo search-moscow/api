@@ -48,11 +48,15 @@ router.get('/', function(req, res, next) {
     res.send('respond with a resource');
 });
 
-router.post('/create', AuthController.access, upload.single("uploadFile"), EventController.create);
+router.post('/create', upload.single("uploadFile"), EventController.create);
 router.get('/read', EventController.index);
-router.get('/gethome', EventController.gethome);
+
+router.get('/gethome', AuthController.access, EventController.gethome);
 router.post('/update', AuthController.access, upload.single("uploadFile"), EventController.update);
 router.post('/delete', AuthController.access, EventController.delete);
+router.post('/enable', AuthController.access, EventController.enable);
+router.post('/disable', AuthController.access, EventController.disable);
+
 
 router.post('/photos', AuthController.access, uploadPhotos.array('photos', 12), EventController.gallery)
 router.post('/optional', AuthController.access, EventController.additionally)

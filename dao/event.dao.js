@@ -85,19 +85,19 @@ class EventDAO {
         }
     }
 
-    static async create(slug, title, description, type, metro, filename, text, phone, website, district, startDate, finishDate) {
+    static async create(slug, title, description, metro, filename, text, phone, website, district, startDate, finishDate) {
 
         let dateAdded = new Date()
         let lastModified = new Date()
 
-        let status
-        if (type == "true") {
-            status = true
-        }
+        let status = false
+        // if (type == "true") {
+        //     status = true
+        // }
 
-        if (type == "false") {
-            status = false
-        }
+        // if (type == "false") {
+        //     status = false
+        // }
 
         const result = await events.insertOne(
             {
@@ -126,6 +126,29 @@ class EventDAO {
                           
         if (result) {
             console.log(`Delete a listing in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
+
+    static async enable(id) {
+        const result = await events.update( { _id: new ObjectID(id) }, { $set: { status: true } } )
+                          
+        if (result) {
+            console.log(`Enable a listing in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
+    static async disable(id) {
+        const result = await events.update( { _id: new ObjectID(id) }, { $set: { status: false } } )
+                          
+        if (result) {
+            console.log(`Disable a listing in the collection:'`);
             return result
         } else {
             console.log(`No listings found`);

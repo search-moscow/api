@@ -1,4 +1,5 @@
 var EventDAO = require('../dao/event.dao');
+var ActivityDAO = require('../dao/activity.dao');
 var fs = require('fs');
 var path = require('path');
 var sharp = require('sharp');
@@ -86,7 +87,6 @@ class EventController {
                     slug,
                     req.body.title,
                     req.body.description,
-                    req.body.type,
                     req.body.metro,
                     filename,
                     req.body.text,
@@ -291,6 +291,34 @@ class EventController {
             res.json(response)
         } catch (error) {
             res.status(500).json(error)
+        }
+    }
+
+
+    static async enable(req, res) {
+        let id = req.body.doc._id
+
+        try {
+            let response  = await LunchDAO.enable(id)
+
+            await ActivityDAO.create("events", req.body.doc.slug, req.body.doc.title, req.body.doc.dateAdded)
+            
+            res.json(response)
+
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+    
+    static async disable(req, res) {
+        let id = req.body.doc._id
+
+        try {
+            let response  = await LunchDAO.disable(id)
+            res.json(response)
+
+        } catch (error) {
+            res.status(500).json(error);
         }
     }
 
