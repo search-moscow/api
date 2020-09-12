@@ -15,8 +15,8 @@ if (process.env.NODE_ENV == 'production') {
   privateKey  = fs.readFileSync('./ssl/production/search.moscow.key', 'utf8');
   certificate = fs.readFileSync('./ssl/production/search.moscow.crt', 'utf8');
 } else {
-  privateKey  = fs.readFileSync('../ssl/development/key.pem', 'utf8');
-  certificate = fs.readFileSync('../ssl/development/cert.pem', 'utf8');
+  privateKey  = fs.readFileSync('./ssl/development/key.pem', 'utf8');
+  certificate = fs.readFileSync('./ssl/development/cert.pem', 'utf8');
 }
 
 var credentials = {key: privateKey, cert: certificate};
