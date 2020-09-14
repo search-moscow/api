@@ -6,33 +6,51 @@
 var fs = require('fs');
 var app = require('../app');
 var debug = require('debug')('search-moscow:server');
-var https = require('https');
 
 var privateKey
 var certificate
 
 if (process.env.NODE_ENV == 'production') {
+  var http = require('https');
+
   privateKey  = fs.readFileSync('./ssl/production/search.moscow.key', 'utf8');
   certificate = fs.readFileSync('./ssl/production/search.moscow.crt', 'utf8');
+
+  var credentials = {key: privateKey, cert: certificate};
+
+  /**
+   * Get port from environment and store in Express.
+   */
+
+  var port = normalizePort(process.env.PORT || '3000');
+  app.set('port', port);
+
+  /**
+   * Create HTTPS server.
+   */
+
+  var server = https.createServer(credentials, app);
+
 } else {
-  privateKey  = fs.readFileSync('./ssl/development/key.pem', 'utf8');
-  certificate = fs.readFileSync('./ssl/development/cert.pem', 'utf8');
+  var http = require('http');
+  
+  // privateKey  = fs.readFileSync('./ssl/development/key.pem', 'utf8');
+  // certificate = fs.readFileSync('./ssl/development/cert.pem', 'utf8');
+
+  /**
+   * Get port from environment and store in Express.
+   */
+
+  var port = normalizePort(process.env.PORT || '3000');
+  app.set('port', port);
+
+  /**
+   * Create HTTP server.
+   */
+
+  var server = http.createServer(app);
+
 }
-
-var credentials = {key: privateKey, cert: certificate};
-
-/**
- * Get port from environment and store in Express.
- */
-
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-
-/**
- * Create HTTPS server.
- */
-
-var server = https.createServer(credentials, app);
 
 /**
  * Listen on provided port, on all network interfaces.

@@ -19,7 +19,11 @@ class ActivityDAO {
     }
 
     static async getAll() {
-        const cursor = await activities.find();
+        const cursor = await activities
+        .aggregate([
+            { $sort: {_id: -1} }
+        ]);
+
         const results = await cursor.toArray();
                           
         if (results) {
