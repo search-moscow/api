@@ -18,6 +18,17 @@ class LunchDAO {
         }
     }
 
+    static async getCount() {
+        const result = await lunches.count()
+
+        if (result) {
+            console.log(`Found a count in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
     static async getAll() {
 
         // var start = new Date(2020, 7, 28);

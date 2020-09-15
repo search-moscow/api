@@ -1,4 +1,9 @@
 var ActivityDAO = require('../dao/activity.dao');
+var RestauranttDAO = require('../dao/restaurant.dao');
+var LunchDAO = require('../dao/lunch.dao');
+var ServiceDAO = require('../dao/service.dao');
+var ShopDAO = require('../dao/shop.dao');
+var EventDAO = require('../dao/event.dao');
 
 class ActivityController {
     
@@ -19,6 +24,28 @@ class ActivityController {
                 req.body.title,
                 req.body.description
             )
+            res.json(response)
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    static async count(req, res) {
+        try {
+            let restaurantCount  = await RestauranttDAO.getCount()
+            let lunchCount  = await LunchDAO.getCount()
+            let serviceCount  = await ServiceDAO.getCount()
+            let shopCount  = await ShopDAO.getCount()
+            let eventCount  = await EventDAO.getCount()
+
+            const response = {
+                'restaurants': restaurantCount,
+                'lunches': lunchCount,
+                'services': serviceCount,
+                'shops': shopCount,
+                'events': eventCount
+            }
+
             res.json(response)
         } catch (error) {
             res.status(500).json(error);

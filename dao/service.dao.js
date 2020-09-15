@@ -18,6 +18,17 @@ class ServiceDAO {
         }
     }
 
+    static async getCount() {
+        const result = await services.count()
+
+        if (result) {
+            console.log(`Found a count in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
     static async getAll() {
         const cursor = await services
         .aggregate([

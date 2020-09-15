@@ -9,5 +9,6 @@ router.get('/', function(req, res, next) {
 
 // router.post('/create', ActivityController.create);
 router.get('/read', ActivityController.index);
+router.get('/count', ActivityController.count);
 
 module.exports = router;
