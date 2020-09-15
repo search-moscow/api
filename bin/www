@@ -11,7 +11,7 @@ var privateKey
 var certificate
 
 if (process.env.NODE_ENV == 'production') {
-  var http = require('https');
+  var https = require('https');
 
   privateKey  = fs.readFileSync('./ssl/production/search.moscow.key', 'utf8');
   certificate = fs.readFileSync('./ssl/production/search.moscow.crt', 'utf8');
