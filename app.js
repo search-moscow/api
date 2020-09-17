@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV == 'production') {
     process.env.URI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@mongo:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false`;
 } else {
-  process.env.URI = "mongodb://mongo:27017/";
+  process.env.URI = `mongodb://${process.env.NODE_DB}`;
 }
 
 var express = require('express');
