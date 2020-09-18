@@ -96,7 +96,7 @@ class RestaurantDAO {
         }
     }
 
-    static async create(slug, title, description, type, metro, filename, text, phone, website, district) {
+    static async create(slug, title, description, type, metro, filename, text, phone, website, district, price, rating, email) {
 
         let dateAdded = new Date()
         let lastModified = new Date()
@@ -123,6 +123,9 @@ class RestaurantDAO {
                 phone: phone,
                 website: website,
                 district: district,
+                price: price,
+                rating: rating,
+                email: email,
                 dateAdded: dateAdded,
                 lastModified: lastModified
             }
@@ -173,6 +176,9 @@ class RestaurantDAO {
                     type: type,
                     phone: object.phone,
                     website: object.website,
+                    price: object.price,
+                    rating: object.rating,
+                    email: object.email,
                     lastModified: lastModified
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }
@@ -203,6 +209,9 @@ class RestaurantDAO {
                     filename: object.filename,
                     phone: object.phone,
                     website: object.website,
+                    price: object.price,
+                    rating: object.rating,
+                    email: object.email,
                     lastModified: lastModified
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }

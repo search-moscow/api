@@ -94,7 +94,10 @@ class RestaurantController {
                     req.body.text,
                     req.body.phone,
                     req.body.website,
-                    req.body.district
+                    req.body.district,
+                    req.body.price,
+                    req.body.rating,
+                    req.body.email
                 )
                 
                 await ActivityDAO.create("restaurants", response.ops[0].slug, response.ops[0].title, response.ops[0].dateAdded)
