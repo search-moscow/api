@@ -288,7 +288,6 @@ class RestaurantController {
         }
     }
 
-
     static async additionally(req, res) {
         try {
             let response  = await RestauranttDAO.includeOptionals(req.body)

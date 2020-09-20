@@ -256,7 +256,8 @@ class RestaurantDAO {
                 $set: {
                     address: body.params.address,
                     keywords: body.params.keywords,
-                    geo: body.params.geo
+                    geo: body.params.geo,
+                    timework: body.params.timework
                 }
             }
             )
