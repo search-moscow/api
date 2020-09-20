@@ -257,7 +257,8 @@ class RestaurantDAO {
                     address: body.params.address,
                     keywords: body.params.keywords,
                     geo: body.params.geo,
-                    timework: body.params.timework
+                    timework: body.params.timework,
+                    socials: body.params.socials
                 }
             }
             )
