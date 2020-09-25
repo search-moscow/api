@@ -47,7 +47,7 @@ class CouponController {
                 var buffer = fs.readFileSync(path.join(__dirname, '../uploads/coupons/originals/' + filename));
                 
                 sharp(buffer)
-                .resize(3000, 2000)
+                .resize(2000, 2000)
                 .toFile(path.join(__dirname, '../uploads/coupons/3x/' + '3x' + filename), (err, info) => { 
               
                   if (err) {
@@ -57,7 +57,7 @@ class CouponController {
                 });
 
                 sharp(buffer)
-                .resize(2000, 1000)
+                .resize(1000, 1000)
                 .toFile(path.join(__dirname, '../uploads/coupons/2x/' + '2x' + filename), (err, info) => { 
               
                   if (err) {
@@ -67,7 +67,7 @@ class CouponController {
                 });
 
                 sharp(buffer)
-                .resize(1000, 500)
+                .resize(500, 500)
                 .toFile(path.join(__dirname, '../uploads/coupons/1x/' + '1x' + filename), (err, info) => { 
               
                   if (err) {
@@ -134,7 +134,7 @@ class CouponController {
                     var buffer = fs.readFileSync(path.join(__dirname, '../uploads/coupons/originals/' + filename));
                     
                     sharp(buffer)
-                    .resize(3000, 2000)
+                    .resize(2000, 2000)
                     .toFile(path.join(__dirname, '../uploads/coupons/3x/' + '3x' + filename), (err, info) => { 
                   
                       if (err) {
@@ -144,7 +144,7 @@ class CouponController {
                     });
     
                     sharp(buffer)
-                    .resize(2000, 1000)
+                    .resize(1000, 1000)
                     .toFile(path.join(__dirname, '../uploads/coupons/2x/' + '2x' + filename), (err, info) => { 
                   
                       if (err) {
@@ -154,7 +154,7 @@ class CouponController {
                     });
     
                     sharp(buffer)
-                    .resize(1000, 500)
+                    .resize(500, 500)
                     .toFile(path.join(__dirname, '../uploads/coupons/1x/' + '1x' + filename), (err, info) => { 
                   
                       if (err) {
@@ -259,7 +259,7 @@ class CouponController {
 
 
                     sharp(buffer)
-                    .resize(2000, 1000)
+                    .resize(1000, 1000)
                     .toFile(path.join(__dirname, '../uploads/coupons/photos/' + '2x' + filename), (err, info) => { 
                   
                       if (err) {
