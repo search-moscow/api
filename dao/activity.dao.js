@@ -21,7 +21,8 @@ class ActivityDAO {
     static async getAll() {
         const cursor = await activities
         .aggregate([
-            { $sort: {_id: -1} }
+            { $sort: {_id: -1} },
+            { $limit: 10}
         ]);
 
         const results = await cursor.toArray();
