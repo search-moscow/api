@@ -89,12 +89,10 @@ class ProductController {
                     req.body.title,
                     req.body.description,
                     req.body.type,
-                    req.body.metro,
                     filename,
                     req.body.text,
                     req.body.phone,
                     req.body.website,
-                    req.body.district,
                     req.body.price,
                     req.body.rating,
                     req.body.email

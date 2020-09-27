@@ -33,10 +33,6 @@ class ProductDAO {
         const cursor = await products
         .aggregate([
             { $match: { type: true } },
-            { $addFields: { "metro": { $toObjectId: "$metro"}}},
-            { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
-            { $addFields: { "district": { $toObjectId: "$district"}}},
-            { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
             { $sort: {_id: -1} }
         ]);
         const results = await cursor.toArray();
@@ -53,10 +49,6 @@ class ProductDAO {
         const cursor = await products
         .aggregate([
             { $match: { type: true } },
-            { $addFields: { "metro": { $toObjectId: "$metro"}}},
-            { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
-            { $addFields: { "district": { $toObjectId: "$district"}}},
-            { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
             { $sort: {_id: -1} },
             { $limit: 10}
         ]);
@@ -74,10 +66,6 @@ class ProductDAO {
         const cursor = products
             .aggregate([
                 { $match:{slug: id}},
-                { $addFields: { "metro": { $toObjectId: "$metro"}}},
-                { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
-                { $addFields: { "district": { $toObjectId: "$district"}}},
-                { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
                 { $limit: 1 }
             ]);
     
@@ -96,7 +84,7 @@ class ProductDAO {
         }
     }
 
-    static async create(slug, title, description, type, metro, filename, text, phone, website, district, price, rating, email) {
+    static async create(slug, title, description, type, filename, text, phone, website, price, rating, email) {
 
         let dateAdded = new Date()
         let lastModified = new Date()
@@ -116,13 +104,11 @@ class ProductDAO {
                 title: title,
                 description: description,
                 type: status,
-                metro: metro,
                 filename: filename,
                 views: 0,
                 text: text,
                 phone: phone,
                 website: website,
-                district: district,
                 price: price,
                 rating: rating,
                 email: email,
@@ -171,8 +157,6 @@ class ProductDAO {
                     title: object.title,
                     description: object.description,
                     text: object.text,
-                    metro: object.metro,
-                    district: object.district,
                     type: type,
                     phone: object.phone,
                     website: object.website,
@@ -203,8 +187,6 @@ class ProductDAO {
                     title: object.title,
                     description: object.description,
                     text: object.text,
-                    metro: object.metro,
-                    district: object.district,
                     type: type,
                     filename: object.filename,
                     phone: object.phone,
@@ -257,7 +239,6 @@ class ProductDAO {
                     address: body.params.address,
                     keywords: body.params.keywords,
                     geo: body.params.geo,
-                    timework: body.params.timework,
                     socials: body.params.socials
                 }
             }
