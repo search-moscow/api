@@ -30,6 +30,7 @@ var activitiesRouter = require('./routes/activities');
 var couponsRouter = require('./routes/coupons');
 var productsRouter = require('./routes/products');
 var realestatesRouter = require('./routes/realestates');
+var hotelsRouter = require('./routes/hotels');
 
 var SearchDAO = require('./dao/search.dao');
 var UsersDAO = require('./dao/users.dao');
@@ -47,6 +48,7 @@ var ActivityDAO = require('./dao/activity.dao');
 var CouponDAO = require('./dao/coupon.dao');
 var ProductDAO = require('./dao/product.dao');
 var RealestateDAO = require('./dao/realestate.dao');
+var HotelDAO = require('./dao/hotel.dao');
 
 var app = express();
 
@@ -70,6 +72,7 @@ MongoClient(process.env.URI).catch(err => {
     await CouponDAO.injectDB(client)
     await ProductDAO.injectDB(client)
     await RealestateDAO.injectDB(client)
+    await HotelDAO.injectDB(client)
 })
 
 app.use(cors({
@@ -122,6 +125,7 @@ app.use('/api/activities', activitiesRouter);
 app.use('/api/coupons', couponsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/realestates', realestatesRouter);
+app.use('/api/hotels', hotelsRouter);
 
 
 
