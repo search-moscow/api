@@ -94,15 +94,16 @@ async function getUrls () {
     let shops = await ShopDAO.getAll()
     let services = await ServiceDAO.getAll()
     let realestates = await RealestateDAO.getAll()
-    let urls
+    let hotels = await HotelDAO.getAll()
 
     urls1 = restaurants.map((res) => { return 'restaurants/' + res.slug })
     urls2 = events.map((res) => { return 'events/' + res.slug })
     urls3 = shops.map((res) => { return 'shops/' + res.slug })
     urls3 = services.map((res) => { return 'services/' + res.slug })
     urls4 = realestates.map((res) => { return 'realestates/' + res.slug })
+    urls5 = hotels.map((res) => { return 'hotels/' + res.slug })
 
-    return [].concat(urls1, urls2, urls3, urls4)
+    return [].concat(urls1, urls2, urls3, urls4, urls5)
   }
 
 app.use('/', indexRouter);
