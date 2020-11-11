@@ -10,7 +10,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
 const MongoClient = require('mongodb');
-const expressSitemapXml = require('express-sitemap-xml')
+const Sitemap = require('./config/sitemap')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -76,35 +76,20 @@ MongoClient(process.env.URI).catch(err => {
 })
 
 app.use(cors({
-    origin:
-      ["http://localhost:4200", "http://localhost:4210", "https://search.moscow", "http://admin.search.moscow", "http://localhost:4000", "http://search.moscow:4000"]
-    , credentials: true
-  }))
+  origin: [
+    "http://localhost:4200",
+    "http://localhost:4210",
+    "https://search.moscow",
+    "http://admin.search.moscow",
+    "http://localhost:4000",
+    "http://search.moscow:4000"
+  ], credentials: true
+}))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(expressSitemapXml(getUrls, 'https://search.moscow/'))
- 
-async function getUrls () {
-    let restaurants = await RestaurantDAO.getAll()
-    let events = await EventDAO.getAll()
-    let shops = await ShopDAO.getAll()
-    let services = await ServiceDAO.getAll()
-    let realestates = await RealestateDAO.getAll()
-    let hotels = await HotelDAO.getAll()
-
-    urls1 = restaurants.map((res) => { return 'restaurants/' + res.slug })
-    urls2 = events.map((res) => { return 'events/' + res.slug })
-    urls3 = shops.map((res) => { return 'shops/' + res.slug })
-    urls3 = services.map((res) => { return 'services/' + res.slug })
-    urls4 = realestates.map((res) => { return 'realestates/' + res.slug })
-    urls5 = hotels.map((res) => { return 'hotels/' + res.slug })
-
-    return [].concat(urls1, urls2, urls3, urls4, urls5)
-  }
 
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);
@@ -127,7 +112,6 @@ app.use('/api/coupons', couponsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/realestates', realestatesRouter);
 app.use('/api/hotels', hotelsRouter);
-
-
+app.get('/sitemap.xml', Sitemap.index)
 
 module.exports = app;
