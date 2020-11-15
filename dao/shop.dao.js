@@ -62,7 +62,7 @@ class ShopDAO {
             { $addFields: { "category": { $toObjectId: "$category"}}},
             { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
             { $sort: {_id: -1} },
-            { $limit: 4}
+            { $limit: 2}
         ]);
         const results = await cursor.toArray();
                           
