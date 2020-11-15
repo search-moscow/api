@@ -87,6 +87,7 @@ class EventController {
                     slug,
                     req.body.title,
                     req.body.description,
+                    req.body.type,
                     req.body.metro,
                     filename,
                     req.body.text,

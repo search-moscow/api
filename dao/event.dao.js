@@ -96,19 +96,19 @@ class EventDAO {
         }
     }
 
-    static async create(slug, title, description, metro, filename, text, phone, website, district, startDate, finishDate) {
+    static async create(slug, title, description, type, metro, filename, text, phone, website, district, startDate, finishDate) {
 
         let dateAdded = new Date()
         let lastModified = new Date()
 
-        let status = false
-        // if (type == "true") {
-        //     status = true
-        // }
+        let status
+        if (type == "true") {
+            status = true
+        }
 
-        // if (type == "false") {
-        //     status = false
-        // }
+        if (type == "false") {
+            status = false
+        }
 
         const result = await events.insertOne(
             {
