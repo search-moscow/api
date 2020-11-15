@@ -49,6 +49,17 @@ class RealestateDAO {
         }
     }
 
+    static async getCount() {
+        const result = await realestates.count()
+
+        if (result) {
+            console.log(`Found a count in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
     static async gethome() {
         const cursor = await realestates
         .aggregate([
@@ -58,7 +69,7 @@ class RealestateDAO {
             { $addFields: { "district": { $toObjectId: "$district"}}},
             { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
             { $sort: {_id: -1} },
-            { $limit: 10}
+            { $limit: 2}
         ]);
         const results = await cursor.toArray();
                           
