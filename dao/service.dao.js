@@ -127,7 +127,7 @@ class ServiceDAO {
         }
     }
 
-    static async create(slug, title, description, type, metro, filename, text, phone, website, district, category) {
+    static async create(slug, title, description, type, metro, filename, text, phone, website, district, category, email) {
 
         let dateAdded = new Date()
         let lastModified = new Date()
@@ -155,6 +155,7 @@ class ServiceDAO {
                 website: website,
                 district: district,
                 category: category,
+                email: email,
                 dateAdded: dateAdded,
                 lastModified: lastModified
             }
@@ -200,6 +201,7 @@ class ServiceDAO {
                     type: type,
                     phone: object.phone,
                     website: object.website,
+                    email: object.email,
                     lastModified: lastModified
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }
@@ -231,6 +233,7 @@ class ServiceDAO {
                     filename: object.filename,
                     phone: object.phone,
                     website: object.website,
+                    email: object.email,
                     lastModified: lastModified
                     // tags: [ "software" ],
                     // "ratings.1": { by: "xyz", rating: 3 }

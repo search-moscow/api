@@ -52,7 +52,7 @@ class RestaurantDAO {
     static async gethome() {
         const cursor = await restaurants
         .aggregate([
-            { $match: { type: true } },
+            { $match: { type: true, premium: true } },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
@@ -152,6 +152,8 @@ class RestaurantDAO {
 
     static async update(object) {
         let type
+        let premium
+
         let lastModified = new Date()
         
         if (object.type == "true") {
@@ -160,6 +162,14 @@ class RestaurantDAO {
 
         if (object.type == "false") {
             type = false
+        }
+
+        if (object.premium == "true") {
+            premium = true
+        }
+
+        if (object.type == "false") {
+            premium = false
         }
 
         if (!object.filename) { 
@@ -174,6 +184,7 @@ class RestaurantDAO {
                     metro: object.metro,
                     district: object.district,
                     type: type,
+                    premium: premium,
                     phone: object.phone,
                     website: object.website,
                     price: object.price,
@@ -206,6 +217,7 @@ class RestaurantDAO {
                     metro: object.metro,
                     district: object.district,
                     type: type,
+                    premium: premium,
                     filename: object.filename,
                     phone: object.phone,
                     website: object.website,

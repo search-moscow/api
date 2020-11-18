@@ -93,7 +93,8 @@ class ServiceController {
                     req.body.phone,
                     req.body.website,
                     req.body.district,
-                    req.body.category
+                    req.body.category,
+                    req.body.email
                 )
                 
                 res.json(response)
