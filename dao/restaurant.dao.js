@@ -123,7 +123,7 @@ class RestaurantDAO {
                 phone: phone,
                 website: website,
                 district: district,
-                price: price,
+                price: Number(price),
                 rating: rating,
                 email: email,
                 dateAdded: dateAdded,
@@ -187,7 +187,7 @@ class RestaurantDAO {
                     premium: premium,
                     phone: object.phone,
                     website: object.website,
-                    price: object.price,
+                    price: Number(object.price),
                     rating: object.rating,
                     email: object.email,
                     lastModified: lastModified
@@ -221,7 +221,7 @@ class RestaurantDAO {
                     filename: object.filename,
                     phone: object.phone,
                     website: object.website,
-                    price: object.price,
+                    price: Number(object.price),
                     rating: object.rating,
                     email: object.email,
                     lastModified: lastModified
