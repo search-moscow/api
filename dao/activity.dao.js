@@ -22,7 +22,7 @@ class ActivityDAO {
         const cursor = await activities
         .aggregate([
             { $sort: {_id: -1} },
-            { $limit: 10}
+            { $limit: 2}
         ]);
 
         const results = await cursor.toArray();
