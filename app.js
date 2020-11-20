@@ -14,7 +14,6 @@ const Sitemap = require('./config/sitemap')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var itemsRouter = require('./routes/items');
 var categoriesRouter = require('./routes/categories');
 var metrosRouter = require('./routes/metros');
 var districtsRouter = require('./routes/districts');
@@ -25,7 +24,6 @@ var shopsRouter = require('./routes/shops');
 var servicesRouter = require('./routes/services');
 var searchRouter = require('./routes/search');
 var widgetRouter = require('./routes/widget');
-var ownersRouter = require('./routes/owners');
 var activitiesRouter = require('./routes/activities');
 var couponsRouter = require('./routes/coupons');
 var productsRouter = require('./routes/products');
@@ -34,7 +32,6 @@ var hotelsRouter = require('./routes/hotels');
 
 var SearchDAO = require('./dao/search.dao');
 var UsersDAO = require('./dao/users.dao');
-var ItemDAO = require('./dao/item.dao');
 var CategoryDAO = require('./dao/category.dao');
 var MetroDAO = require('./dao/metro.dao');
 var DistrictDAO = require('./dao/district.dao');
@@ -43,7 +40,6 @@ var EventDAO = require('./dao/event.dao');
 var LunchDAO = require('./dao/lunch.dao');
 var ShopDAO = require('./dao/shop.dao');
 var ServiceDAO = require('./dao/service.dao');
-var OwnersDAO = require('./dao/owners.dao');
 var ActivityDAO = require('./dao/activity.dao');
 var CouponDAO = require('./dao/coupon.dao');
 var ProductDAO = require('./dao/product.dao');
@@ -58,7 +54,6 @@ MongoClient(process.env.URI).catch(err => {
 }).then(async client => {
   await SearchDAO.injectDB(client)
     await UsersDAO.injectDB(client)
-    await ItemDAO.injectDB(client)
     await CategoryDAO.injectDB(client)
     await MetroDAO.injectDB(client)
     await RestaurantDAO.injectDB(client)
@@ -67,7 +62,6 @@ MongoClient(process.env.URI).catch(err => {
     await ShopDAO.injectDB(client)
     await ServiceDAO.injectDB(client)
     await DistrictDAO.injectDB(client)
-    await OwnersDAO.injectDB(client)
     await ActivityDAO.injectDB(client)
     await CouponDAO.injectDB(client)
     await ProductDAO.injectDB(client)
@@ -96,7 +90,6 @@ app.use('/', indexRouter);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use('/search', searchRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/items', itemsRouter);
 app.use('/api/categories', categoriesRouter);
 app.use('/api/metros', metrosRouter);
 app.use('/api/restaurants', restaurantsRouter);
@@ -106,7 +99,6 @@ app.use('/api/shops', shopsRouter);
 app.use('/api/services', servicesRouter);
 app.use('/api/districts', districtsRouter);
 app.use('/api/widget', widgetRouter);
-app.use('/api/owners', ownersRouter);
 app.use('/api/activities', activitiesRouter);
 app.use('/api/coupons', couponsRouter);
 app.use('/api/products', productsRouter);
