@@ -19,6 +19,26 @@ class RestaurantController {
             res.status(500).json(error);
         }
     }
+
+    static async getSortUp(req, res) {
+        console.log(req.query.sort)
+        try {
+            let response  = await RestauranttDAO.getSortUp()
+            res.json(response)
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    static async getSortDown(req, res) {
+        console.log(req.query.sort)
+        try {
+            let response  = await RestauranttDAO.getSortDown()
+            res.json(response)
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
     
     static async single(req, res) {
         try {

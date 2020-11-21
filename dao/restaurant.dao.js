@@ -49,6 +49,46 @@ class RestaurantDAO {
         }
     }
 
+    static async getSortUp() {
+        const cursor = await restaurants
+        .aggregate([
+            { $match: { type: true } },
+            { $addFields: { "metro": { $toObjectId: "$metro"}}},
+            { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
+            { $addFields: { "district": { $toObjectId: "$district"}}},
+            { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+            { $sort: {views: -1} }
+        ]);
+        const results = await cursor.toArray();
+                          
+        if (results) {
+            console.log(`Found a listing in the collection:'`);
+            return results
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
+    static async getSortDown() {
+        const cursor = await restaurants
+        .aggregate([
+            { $match: { type: true } },
+            { $addFields: { "metro": { $toObjectId: "$metro"}}},
+            { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
+            { $addFields: { "district": { $toObjectId: "$district"}}},
+            { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+            { $sort: {views: 1} }
+        ]);
+        const results = await cursor.toArray();
+                          
+        if (results) {
+            console.log(`Found a listing in the collection:'`);
+            return results
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
     static async gethome() {
         const cursor = await restaurants
         .aggregate([
