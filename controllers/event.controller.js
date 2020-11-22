@@ -1,8 +1,5 @@
 var EventDAO = require('../dao/event.dao');
 var ActivityDAO = require('../dao/activity.dao');
-var fs = require('fs');
-var path = require('path');
-var sharp = require('sharp');
 
 class EventController {
     

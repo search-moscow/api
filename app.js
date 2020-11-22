@@ -13,7 +13,6 @@ const MongoClient = require('mongodb');
 const Sitemap = require('./config/sitemap')
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var categoriesRouter = require('./routes/categories');
 var metrosRouter = require('./routes/metros');
 var districtsRouter = require('./routes/districts');
@@ -31,7 +30,6 @@ var realestatesRouter = require('./routes/realestates');
 var hotelsRouter = require('./routes/hotels');
 
 var SearchDAO = require('./dao/search.dao');
-var UsersDAO = require('./dao/users.dao');
 var CategoryDAO = require('./dao/category.dao');
 var MetroDAO = require('./dao/metro.dao');
 var DistrictDAO = require('./dao/district.dao');
@@ -53,7 +51,6 @@ MongoClient(process.env.URI).catch(err => {
     process.exit(1)
 }).then(async client => {
   await SearchDAO.injectDB(client)
-    await UsersDAO.injectDB(client)
     await CategoryDAO.injectDB(client)
     await MetroDAO.injectDB(client)
     await RestaurantDAO.injectDB(client)
@@ -86,10 +83,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-// app.use('/users', usersRouter);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use('/search', searchRouter);
-app.use('/api/users', usersRouter);
 app.use('/api/categories', categoriesRouter);
 app.use('/api/metros', metrosRouter);
 app.use('/api/restaurants', restaurantsRouter);

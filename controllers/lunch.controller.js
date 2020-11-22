@@ -1,8 +1,5 @@
 var LunchDAO = require('../dao/lunch.dao');
 var ActivityDAO = require('../dao/activity.dao');
-var fs = require('fs');
-var path = require('path');
-var sharp = require('sharp');
 
 class LunchController {
     
