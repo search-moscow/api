@@ -49,17 +49,6 @@ class RealestateDAO {
         }
     }
 
-    static async getCount() {
-        const result = await realestates.count()
-
-        if (result) {
-            console.log(`Found a count in the collection:'`);
-            return result
-        } else {
-            console.log(`No listings found`);
-        }
-    }
-
     static async gethome() {
         const cursor = await realestates
         .aggregate([
