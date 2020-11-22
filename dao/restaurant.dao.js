@@ -92,13 +92,13 @@ class RestaurantDAO {
     static async gethome() {
         const cursor = await restaurants
         .aggregate([
-            { $match: { type: true, premium: true } },
+            { $match: { type: true} },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
             { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
             { $sort: {_id: -1} },
-            { $limit: 3}
+            { $limit: 4}
         ]);
         const results = await cursor.toArray();
                           

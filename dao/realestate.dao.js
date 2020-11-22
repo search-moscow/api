@@ -69,7 +69,7 @@ class RealestateDAO {
             { $addFields: { "district": { $toObjectId: "$district"}}},
             { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
             { $sort: {_id: -1} },
-            { $limit: 3}
+            { $limit: 4}
         ]);
         const results = await cursor.toArray();
                           
