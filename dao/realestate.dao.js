@@ -49,6 +49,46 @@ class RealestateDAO {
         }
     }
 
+    static async getSortUp() {
+        const cursor = await realestates
+        .aggregate([
+            { $match: { type: true } },
+            { $addFields: { "metro": { $toObjectId: "$metro"}}},
+            { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
+            { $addFields: { "district": { $toObjectId: "$district"}}},
+            { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+            { $sort: {views: -1} }
+        ]);
+        const results = await cursor.toArray();
+                          
+        if (results) {
+            console.log(`Found a listing in the collection:'`);
+            return results
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
+    static async getSortDown() {
+        const cursor = await realestates
+        .aggregate([
+            { $match: { type: true } },
+            { $addFields: { "metro": { $toObjectId: "$metro"}}},
+            { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
+            { $addFields: { "district": { $toObjectId: "$district"}}},
+            { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+            { $sort: {views: 1} }
+        ]);
+        const results = await cursor.toArray();
+                          
+        if (results) {
+            console.log(`Found a listing in the collection:'`);
+            return results
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
     static async gethome() {
         const cursor = await realestates
         .aggregate([
@@ -79,6 +119,33 @@ class RealestateDAO {
                 { $addFields: { "district": { $toObjectId: "$district"}}},
                 { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
                 { $limit: 1 }
+            ]);
+    
+        const result = await cursor.toArray();
+                              
+        if (result) {
+            await realestates.update(
+                { slug: id },
+                { $inc: { views: 1} }
+            );
+    
+            console.log(`Found a listing in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
+    static async filter(id) {
+        const cursor = realestates
+            .aggregate([
+                { $match:{price: {$gte: Number(id)}}},
+                { $addFields: { "metro": { $toObjectId: "$metro"}}},
+                { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
+                { $addFields: { "district": { $toObjectId: "$district"}}},
+                { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+                // { $limit: 1 }
+                { $sort: {_id: -1} },
             ]);
     
         const result = await cursor.toArray();

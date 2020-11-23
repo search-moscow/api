@@ -136,6 +136,33 @@ class RestaurantDAO {
         }
     }
 
+    static async filter(id) {
+        const cursor = restaurants
+            .aggregate([
+                { $match:{price: {$gte: Number(id)}}},
+                { $addFields: { "metro": { $toObjectId: "$metro"}}},
+                { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
+                { $addFields: { "district": { $toObjectId: "$district"}}},
+                { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+                // { $limit: 1 }
+                { $sort: {_id: -1} },
+            ]);
+    
+        const result = await cursor.toArray();
+                              
+        if (result) {
+            await restaurants.update(
+                { slug: id },
+                { $inc: { views: 1} }
+            );
+    
+            console.log(`Found a listing in the collection:'`);
+            return result
+        } else {
+            console.log(`No listings found`);
+        }
+    }
+
 }
 
 module.exports = RestaurantDAO;

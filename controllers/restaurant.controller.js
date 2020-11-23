@@ -21,7 +21,6 @@ class RestaurantController {
     }
 
     static async getSortUp(req, res) {
-        console.log(req.query.sort)
         try {
             let response  = await RestauranttDAO.getSortUp()
             res.json(response)
@@ -31,7 +30,6 @@ class RestaurantController {
     }
 
     static async getSortDown(req, res) {
-        console.log(req.query.sort)
         try {
             let response  = await RestauranttDAO.getSortDown()
             res.json(response)
@@ -43,6 +41,15 @@ class RestaurantController {
     static async single(req, res) {
         try {
             let response  = await RestauranttDAO.getBy(req.params.id)
+            res.json(response) 
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    static async filter(req, res) {
+        try {
+            let response  = await RestauranttDAO.filter(req.query.price)
             res.json(response) 
         } catch (error) {
             res.status(500).json(error);

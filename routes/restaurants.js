@@ -11,5 +11,6 @@ router.get('/gethome', RestaurantController.gethome);
 router.get('/getSortUp', RestaurantController.getSortUp);
 router.get('/getSortDown', RestaurantController.getSortDown);
 router.get('/read/:id', RestaurantController.single);
+router.get('/getfilterbyprice', RestaurantController.filter);
 
 module.exports = router;

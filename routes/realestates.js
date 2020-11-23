@@ -8,6 +8,9 @@ router.get('/', function(req, res, next) {
 
 router.get('/read', RealestateController.index);
 router.get('/gethome', RealestateController.gethome);
+router.get('/getSortUp', RealestateController.getSortUp);
+router.get('/getSortDown', RealestateController.getSortDown);
 router.get('/read/:id', RealestateController.single);
+router.get('/getfilterbyprice', RealestateController.filter);
 
 module.exports = router;

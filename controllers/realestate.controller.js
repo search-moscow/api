@@ -20,9 +20,36 @@ class RealestateController {
         }
     }
     
+    static async getSortUp(req, res) {
+        try {
+            let response  = await RealestateDAO.getSortUp()
+            res.json(response)
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    static async getSortDown(req, res) {
+        try {
+            let response  = await RealestateDAO.getSortDown()
+            res.json(response)
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
     static async single(req, res) {
         try {
             let response  = await RealestateDAO.getBy(req.params.id)
+            res.json(response) 
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    static async filter(req, res) {
+        try {
+            let response  = await RealestateDAO.filter(req.query.price)
             res.json(response) 
         } catch (error) {
             res.status(500).json(error);
