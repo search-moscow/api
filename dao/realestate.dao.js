@@ -32,7 +32,7 @@ class RealestateDAO {
     static async getAll() {
         const cursor = await realestates
         .aggregate([
-            { $match: { type: true } },
+            { $match: { status: true } },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
@@ -52,7 +52,7 @@ class RealestateDAO {
     static async getSortUp() {
         const cursor = await realestates
         .aggregate([
-            { $match: { type: true } },
+            { $match: { status: true } },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
@@ -72,7 +72,7 @@ class RealestateDAO {
     static async getSortDown() {
         const cursor = await realestates
         .aggregate([
-            { $match: { type: true } },
+            { $match: { status: true } },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
@@ -92,7 +92,7 @@ class RealestateDAO {
     static async gethome() {
         const cursor = await realestates
         .aggregate([
-            { $match: { type: true } },
+            { $match: { status: true } },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},

@@ -32,7 +32,7 @@ class RestaurantDAO {
     static async getAll() {
         const cursor = await restaurants
         .aggregate([
-            { $match: { type: true } },
+            { $match: { status: true } },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
@@ -52,7 +52,7 @@ class RestaurantDAO {
     static async getSortUp() {
         const cursor = await restaurants
         .aggregate([
-            { $match: { type: true } },
+            { $match: { status: true } },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
@@ -72,7 +72,7 @@ class RestaurantDAO {
     static async getSortDown() {
         const cursor = await restaurants
         .aggregate([
-            { $match: { type: true } },
+            { $match: { status: true } },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
@@ -92,7 +92,7 @@ class RestaurantDAO {
     static async gethome() {
         const cursor = await restaurants
         .aggregate([
-            { $match: { type: true} },
+            { $match: { status: true} },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
