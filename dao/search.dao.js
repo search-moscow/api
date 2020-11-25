@@ -1,6 +1,7 @@
 ObjectID = require('mongodb').ObjectID
 
 let restaurants
+let realestates
 let events
 let shops
 let services
@@ -13,6 +14,7 @@ class RestaurantDAO {
             // process.env.MFLIX_NS
             moscow = await conn.db('moscow')
             restaurants = await moscow.collection("restaurants")
+            realestates = await moscow.collection("realestates")
             events = await moscow.collection("events")
             shops = await moscow.collection("shops")
             services = await moscow.collection("services")
@@ -29,6 +31,13 @@ class RestaurantDAO {
             .aggregate([
                 { $match: { $text: { $search: text } } },
                 { $addFields: { "dao":"restaurants" }},
+                { $sort: { score: { $meta: "textScore" } } },
+            ]).toArray();
+
+        const resultsRealestates = await realestates
+            .aggregate([
+                { $match: { $text: { $search: text } } },
+                { $addFields: { "dao":"realestates" }},
                 { $sort: { score: { $meta: "textScore" } } },
             ]).toArray();
               
@@ -53,7 +62,7 @@ class RestaurantDAO {
                 { $sort: { score: { $meta: "textScore" } } },
             ]).toArray();
             
-        const results = [].concat(resultsRestaurants, resultsEvents, resultsShops, resultsServices)
+        const results = [].concat(resultsRestaurants, resultsRealestates, resultsEvents, resultsShops, resultsServices)
 
         if (results) {
             console.log(`Found a listing in the collection:'`);
