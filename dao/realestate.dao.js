@@ -37,6 +37,8 @@ class RealestateDAO {
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
             { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+            { $addFields: { "category": { $toObjectId: "$category"}}},
+            { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
             { $sort: {_id: -1} }
         ]);
         const results = await cursor.toArray();
@@ -57,6 +59,8 @@ class RealestateDAO {
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
             { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+            { $addFields: { "category": { $toObjectId: "$category"}}},
+            { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
             { $sort: {views: -1} }
         ]);
         const results = await cursor.toArray();
@@ -77,6 +81,8 @@ class RealestateDAO {
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
             { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+            { $addFields: { "category": { $toObjectId: "$category"}}},
+            { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
             { $sort: {views: 1} }
         ]);
         const results = await cursor.toArray();
@@ -97,6 +103,8 @@ class RealestateDAO {
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
             { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+            { $addFields: { "category": { $toObjectId: "$category"}}},
+            { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
             { $sort: {_id: -1} },
             { $limit: 4}
         ]);
@@ -118,6 +126,8 @@ class RealestateDAO {
                 { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
                 { $addFields: { "district": { $toObjectId: "$district"}}},
                 { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+                { $addFields: { "category": { $toObjectId: "$category"}}},
+                { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
                 { $limit: 1 }
             ]);
     
@@ -144,7 +154,8 @@ class RealestateDAO {
                 { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
                 { $addFields: { "district": { $toObjectId: "$district"}}},
                 { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
-                // { $limit: 1 }
+                { $addFields: { "category": { $toObjectId: "$category"}}},
+                { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
                 { $sort: {_id: -1} },
             ]);
     
