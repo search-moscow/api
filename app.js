@@ -27,6 +27,7 @@ var activitiesRouter = require('./routes/activities');
 var couponsRouter = require('./routes/coupons');
 var productsRouter = require('./routes/products');
 var realestatesRouter = require('./routes/realestates');
+var housesRouter = require('./routes/houses');
 var hotelsRouter = require('./routes/hotels');
 
 var SearchDAO = require('./dao/search.dao');
@@ -42,11 +43,12 @@ var ActivityDAO = require('./dao/activity.dao');
 var CouponDAO = require('./dao/coupon.dao');
 var ProductDAO = require('./dao/product.dao');
 var RealestateDAO = require('./dao/realestate.dao');
+var HouseDAO = require('./dao/house.dao');
 var HotelDAO = require('./dao/hotel.dao');
 
 var app = express();
 
-MongoClient(process.env.URI).catch(err => {
+MongoClient(process.env.URI, { useUnifiedTopology: true }).catch(err => {
     console.error(err.stack)
     process.exit(1)
 }).then(async client => {
@@ -63,6 +65,7 @@ MongoClient(process.env.URI).catch(err => {
     await CouponDAO.injectDB(client)
     await ProductDAO.injectDB(client)
     await RealestateDAO.injectDB(client)
+    await HouseDAO.injectDB(client)
     await HotelDAO.injectDB(client)
 })
 
@@ -98,6 +101,7 @@ app.use('/api/activities', activitiesRouter);
 app.use('/api/coupons', couponsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/realestates', realestatesRouter);
+app.use('/api/houses', housesRouter);
 app.use('/api/hotels', hotelsRouter);
 app.get('/sitemap.xml', Sitemap.index)
 

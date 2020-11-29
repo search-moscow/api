@@ -5,6 +5,7 @@ var ServiceDAO = require('../dao/service.dao');
 var ShopDAO = require('../dao/shop.dao');
 var EventDAO = require('../dao/event.dao');
 var RealestateDAO = require('../dao/realestate.dao');
+var HouseDAO = require('../dao/house.dao');
 var HotelDAO = require('../dao/hotel.dao');
 
 class ActivityController {
@@ -40,6 +41,7 @@ class ActivityController {
             let shopCount  = await ShopDAO.getCount()
             let eventCount  = await EventDAO.getCount()
             let realestateCount = await RealestateDAO.getCount()
+            let houseCount = await HouseDAO.getCount()
             let hotelCount = await HotelDAO.getCount()
 
             const response = {
@@ -49,7 +51,8 @@ class ActivityController {
                 'shops': shopCount,
                 'events': eventCount,
                 'realestates': realestateCount,
-                'hotels': hotelCount
+                'hotels': hotelCount,
+                'houses': houseCount,
             }
 
             res.json(response)
