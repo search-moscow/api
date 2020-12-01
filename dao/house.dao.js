@@ -33,6 +33,8 @@ class HouseDAO {
         const cursor = await houses
         .aggregate([
             { $match: { status: true } },
+            { $addFields: { "category": { $toObjectId: "$category"}}},
+            { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
             { $sort: {_id: -1} }
         ]);
         const results = await cursor.toArray();
@@ -49,6 +51,8 @@ class HouseDAO {
         const cursor = await houses
         .aggregate([
             { $match: { status: true } },
+            { $addFields: { "category": { $toObjectId: "$category"}}},
+            { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
             { $sort: {views: -1} }
         ]);
         const results = await cursor.toArray();
@@ -65,6 +69,8 @@ class HouseDAO {
         const cursor = await houses
         .aggregate([
             { $match: { status: true } },
+            { $addFields: { "category": { $toObjectId: "$category"}}},
+            { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
             { $sort: {views: 1} }
         ]);
         const results = await cursor.toArray();
@@ -81,6 +87,8 @@ class HouseDAO {
         const cursor = await houses
         .aggregate([
             { $match: { status: true } },
+            { $addFields: { "category": { $toObjectId: "$category"}}},
+            { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
             { $sort: {_id: -1} },
             { $limit: 4}
         ]);
@@ -98,6 +106,8 @@ class HouseDAO {
         const cursor = houses
             .aggregate([
                 { $match:{slug: id}},
+                { $addFields: { "category": { $toObjectId: "$category"}}},
+                { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
                 { $limit: 1 }
             ]);
     
@@ -120,6 +130,8 @@ class HouseDAO {
         const cursor = houses
             .aggregate([
                 { $match:{price: {$gte: Number(id)}}},
+                { $addFields: { "category": { $toObjectId: "$category"}}},
+                { $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "categories" } },
                 { $sort: {_id: -1} },
             ]);
     
