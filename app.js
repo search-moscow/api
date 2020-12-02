@@ -29,6 +29,7 @@ var productsRouter = require('./routes/products');
 var realestatesRouter = require('./routes/realestates');
 var housesRouter = require('./routes/houses');
 var hotelsRouter = require('./routes/hotels');
+var newsRouter = require('./routes/news');
 
 var SearchDAO = require('./dao/search.dao');
 var CategoryDAO = require('./dao/category.dao');
@@ -45,6 +46,7 @@ var ProductDAO = require('./dao/product.dao');
 var RealestateDAO = require('./dao/realestate.dao');
 var HouseDAO = require('./dao/house.dao');
 var HotelDAO = require('./dao/hotel.dao');
+var NewsDAO = require('./dao/news.dao');
 
 var app = express();
 
@@ -67,6 +69,7 @@ MongoClient(process.env.URI, { useUnifiedTopology: true }).catch(err => {
     await RealestateDAO.injectDB(client)
     await HouseDAO.injectDB(client)
     await HotelDAO.injectDB(client)
+    await NewsDAO.injectDB(client)
 })
 
 app.use(cors({
@@ -103,6 +106,7 @@ app.use('/api/products', productsRouter);
 app.use('/api/realestates', realestatesRouter);
 app.use('/api/houses', housesRouter);
 app.use('/api/hotels', hotelsRouter);
+app.use('/api/news', newsRouter);
 app.get('/sitemap.xml', Sitemap.index)
 
 module.exports = app;
