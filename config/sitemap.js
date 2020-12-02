@@ -10,6 +10,8 @@ var CouponDAO = require('../dao/coupon.dao');
 var ProductDAO = require('../dao/product.dao');
 var RealestateDAO = require('../dao/realestate.dao');
 var HotelDAO = require('../dao/hotel.dao');
+var HouseDAO = require('../dao/house.dao');
+var NewsDAO = require('../dao/news.dao');
 
 let sitemap
 
@@ -37,6 +39,8 @@ class Sitemap {
             let services = await ServiceDAO.getAll()
             let realestates = await RealestateDAO.getAll()
             let hotels = await HotelDAO.getAll()
+            let houses = await HouseDAO.getAll()
+            let news = await NewsDAO.getAll()
       
             restaurants.map((res) => {
                 smStream.write({
@@ -68,6 +72,24 @@ class Sitemap {
             realestates.map((res) => {
                 smStream.write({
                     url: 'realestates/' + res.slug,
+                    changefreq: 'weekly',
+                    lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
+                    priority: 0.5
+                })
+            })
+
+            houses.map((res) => {
+                smStream.write({
+                    url: 'houses/' + res.slug,
+                    changefreq: 'weekly',
+                    lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
+                    priority: 0.5
+                })
+            })
+
+            news.map((res) => {
+                smStream.write({
+                    url: 'news/' + res.slug,
                     changefreq: 'weekly',
                     lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
                     priority: 0.5
