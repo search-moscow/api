@@ -21,7 +21,7 @@ class EventDAO {
     static async getAll() {
         const cursor = await events
         .aggregate([
-            { $match: { type: true, show: true } },
+            { $match: { status: true, show: true } },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
@@ -52,7 +52,7 @@ class EventDAO {
     static async gethome() {
         const cursor = await events
         .aggregate([
-            { $match: { type: true, show: true } },
+            { $match: { status: true, show: true } },
             { $addFields: { "metro": { $toObjectId: "$metro"}}},
             { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
             { $addFields: { "district": { $toObjectId: "$district"}}},
@@ -73,7 +73,7 @@ class EventDAO {
     static async getBy(id) {
         const cursor = events
             .aggregate([
-                { $match:{slug: id, type: true}},
+                { $match:{slug: id, status: true}},
                 { $addFields: { "metro": { $toObjectId: "$metro"}}},
                 { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
                 { $addFields: { "district": { $toObjectId: "$district"}}},
