@@ -76,14 +76,7 @@ MongoClient(process.env.URI, { useUnifiedTopology: true }).catch(err => {
 })
 
 app.use(cors({
-  origin: [
-    "http://localhost:4200",
-    "http://localhost:4210",
-    "https://search.moscow",
-    "http://admin.search.moscow",
-    "http://localhost:4000",
-    "http://search.moscow:4000"
-  ], credentials: true
+  origin: "*", credentials: true
 }))
 app.use(logger('dev'));
 app.use(express.json());
