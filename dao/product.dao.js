@@ -50,7 +50,7 @@ class ProductDAO {
         .aggregate([
             { $match: { type: true } },
             { $sort: {_id: -1} },
-            { $limit: 10}
+            { $limit: 12}
         ]);
         const results = await cursor.toArray();
                           
