@@ -49,6 +49,8 @@ class ProductDAO {
         const cursor = await products
         .aggregate([
             { $match: { type: true } },
+            { $addFields: { "shop": { $toObjectId: "$shop"}}},
+            { $lookup: { from: "shops", localField: "shop", foreignField: "_id", as: "shop" } },
             { $sort: {_id: -1} },
             { $limit: 16}
         ]);
