@@ -78,10 +78,19 @@ class ShopDAO {
         const cursor = shops
             .aggregate([
                 { $match:{slug: id}},
+                
                 { $addFields: { "metro": { $toObjectId: "$metro"}}},
                 { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
+                
                 { $addFields: { "district": { $toObjectId: "$district"}}},
                 { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
+                
+                { $addFields: { "id": { $toString: "$_id" } } },
+                { $lookup: {
+                    from: "products", localField: "id", foreignField: "shop", as: "products"
+                }},
+                { $addFields: { count: { $size: "$products" } } },
+
                 { $limit: 1 }
             ]);
     
