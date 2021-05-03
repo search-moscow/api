@@ -75,6 +75,15 @@ class ProductDAO {
         const cursor = products
             .aggregate([
                 { $match:{slug: id}},
+
+                { $addFields: { "shop": { $toObjectId: "$shop"}}},
+                { $lookup: { from: "shops", localField: "shop", foreignField: "_id", as: "shop" } },
+                { $unwind: "$shop" },
+                
+                { $addFields: { "subcategory": { $toObjectId: "$subcategory"}}},
+                { $lookup: { from: "subcategories", localField: "subcategory", foreignField: "_id", as: "subcategory" } },
+                { $unwind: "$subcategory" },
+
                 { $limit: 1 }
             ]);
     
