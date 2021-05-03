@@ -32,8 +32,30 @@ class SubcategoryDAO {
     }
 
     static async single(id) {
-        const result = await subcategories.findOne({slug: id})
-                              
+        const cursor = await subcategories
+        .aggregate([
+            { $match: { slug: id }},
+            { $addFields: { "id": { $toString: "$_id"}}},
+            { $lookup: {
+              from: "products",
+              let: {"id": "$id"},
+              pipeline: [
+                { $match: { $expr: { $eq: ["$subcategory", "$$id"] }}},
+                
+                { $addFields: { "shop": { $toObjectId: "$shop"}}},
+                
+                { $lookup: { from: "shops", localField: "shop", foreignField: "_id", as: "shop" } },
+                { $unwind: "$shop" },
+
+                { $sort: { _id: -1 } },
+    
+              ],
+              as: "products"
+            }},
+          ]);
+          
+          const result = await cursor.toArray();
+
         if (result) {
             console.log(`Found a listing in the collection:'`);
             return result

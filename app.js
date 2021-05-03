@@ -1,7 +1,8 @@
 if (process.env.NODE_ENV == 'production') {
     process.env.URI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@mongo:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false`;
 } else {
-  process.env.URI = `mongodb://${process.env.NODE_DB}`;
+  process.env.URI = `mongodb://d3c0d3:d3c0d3cgjrbyjrb@178.154.215.8:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Beta&ssl=false`;
+  // process.env.URI = `mongodb://${process.env.NODE_DB}`;
 }
 
 var express = require('express');
@@ -14,6 +15,7 @@ const Sitemap = require('./config/sitemap')
 
 var indexRouter = require('./routes/index');
 var categoriesRouter = require('./routes/categories');
+var subcategoriesRouter = require('./routes/subcategories');
 var metrosRouter = require('./routes/metros');
 var districtsRouter = require('./routes/districts');
 var restaurantsRouter = require('./routes/restaurants');
@@ -34,6 +36,7 @@ var newsRouter = require('./routes/news');
 
 var SearchDAO = require('./dao/search.dao');
 var CategoryDAO = require('./dao/category.dao');
+var SubcategoryDAO = require('./dao/subcategory.dao');
 var MetroDAO = require('./dao/metro.dao');
 var DistrictDAO = require('./dao/district.dao');
 var RestaurantDAO = require('./dao/restaurant.dao');
@@ -58,6 +61,7 @@ MongoClient(process.env.URI, { useUnifiedTopology: true }).catch(err => {
 }).then(async client => {
   await SearchDAO.injectDB(client)
     await CategoryDAO.injectDB(client)
+    await SubcategoryDAO.injectDB(client)
     await MetroDAO.injectDB(client)
     await RestaurantDAO.injectDB(client)
     await SpaDAO.injectDB(client)
@@ -88,6 +92,7 @@ app.use('/', indexRouter);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use('/search', searchRouter);
 app.use('/api/categories', categoriesRouter);
+app.use('/api/subcategories', subcategoriesRouter);
 app.use('/api/metros', metrosRouter);
 app.use('/api/restaurants', restaurantsRouter);
 app.use('/api/spa', spaRouter);
