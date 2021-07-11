@@ -33,23 +33,24 @@ class Sitemap {
             const pipeline = smStream.pipe(createGzip())
             // pipe your entries or directly write them.
           
-            let restaurants = await RestaurantDAO.getAll()
+            // let restaurants = await RestaurantDAO.getAll()
             // let events = await EventDAO.getAll()
             let shops = await ShopDAO.getAll()
-            let services = await ServiceDAO.getAll()
-            let realestates = await RealestateDAO.getAll()
-            let hotels = await HotelDAO.getAll()
-            let houses = await HouseDAO.getAll()
+            // let services = await ServiceDAO.getAll()
+            // let realestates = await RealestateDAO.getAll()
+            // let hotels = await HotelDAO.getAll()
+            // let houses = await HouseDAO.getAll()
             let news = await NewsDAO.getAll()
+            let products = await ProductDAO.getAll()
       
-            restaurants.map((res) => {
-                smStream.write({
-                    url: 'restaurants/' + res.slug,
-                    changefreq: 'weekly',
-                    lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
-                    priority: 0.5
-                })
-            })
+            // restaurants.map((res) => {
+            //     smStream.write({
+            //         url: 'restaurants/' + res.slug,
+            //         changefreq: 'weekly',
+            //         lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
+            //         priority: 0.5
+            //     })
+            // })
       
             shops.map((res) => {
                 smStream.write({
@@ -60,32 +61,32 @@ class Sitemap {
                 })
             })
       
-            services.map((res) => {
-                smStream.write({
-                    url: 'services/' + res.slug,
-                    changefreq: 'weekly',
-                    lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
-                    priority: 0.5
-                })
-            })
+            // services.map((res) => {
+            //     smStream.write({
+            //         url: 'services/' + res.slug,
+            //         changefreq: 'weekly',
+            //         lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
+            //         priority: 0.5
+            //     })
+            // })
       
-            realestates.map((res) => {
-                smStream.write({
-                    url: 'realestates/' + res.slug,
-                    changefreq: 'weekly',
-                    lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
-                    priority: 0.5
-                })
-            })
+            // realestates.map((res) => {
+            //     smStream.write({
+            //         url: 'realestates/' + res.slug,
+            //         changefreq: 'weekly',
+            //         lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
+            //         priority: 0.5
+            //     })
+            // })
 
-            houses.map((res) => {
-                smStream.write({
-                    url: 'houses/' + res.slug,
-                    changefreq: 'weekly',
-                    lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
-                    priority: 0.5
-                })
-            })
+            // houses.map((res) => {
+            //     smStream.write({
+            //         url: 'houses/' + res.slug,
+            //         changefreq: 'weekly',
+            //         lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
+            //         priority: 0.5
+            //     })
+            // })
 
             news.map((res) => {
                 smStream.write({
@@ -95,15 +96,24 @@ class Sitemap {
                     priority: 0.5
                 })
             })
-      
-            hotels.map((res) => {
+
+            products.map((res) => {
                 smStream.write({
-                    url: 'hotels/' + res.slug,
+                    url: 'products/' + res.slug,
                     changefreq: 'weekly',
                     lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
                     priority: 0.5
                 })
             })
+      
+            // hotels.map((res) => {
+            //     smStream.write({
+            //         url: 'hotels/' + res.slug,
+            //         changefreq: 'weekly',
+            //         lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
+            //         priority: 0.5
+            //     })
+            // })
             
             // cache the response
             streamToPromise(pipeline).then(sm => sitemap = sm)
