@@ -58,8 +58,8 @@ class ProductDAO {
             { $lookup: { from: "subcategories", localField: "subcategory", foreignField: "_id", as: "subcategory" } },
             { $unwind: "$subcategory" },
             
-            { $sort: {_id: -1} },
-            { $limit: 16}
+            { $sort: {views: -1} },
+            { $limit: 10}
         ]);
         const results = await cursor.toArray();
                           
