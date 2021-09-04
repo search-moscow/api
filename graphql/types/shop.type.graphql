@@ -1,0 +1,9 @@
+type Shop {
+    slug: String
+    title: String
+    description: String
+  }
+
+type Query {
+    shops: [Shop]
+}
