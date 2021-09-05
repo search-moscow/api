@@ -1,8 +1,8 @@
 if (process.env.NODE_ENV == 'production') {
     process.env.URI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@mongo:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false`;
 } else {
-  process.env.URI = `mongodb://d3c0d3:d3c0d3cgjrbyjrb@130.193.44.49:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Beta&ssl=false`;
-  // process.env.URI = `mongodb://${process.env.NODE_DB}`;
+//   process.env.URI = `mongodb://d3c0d3:d3c0d3cgjrbyjrb@130.193.44.49:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Beta&ssl=false`;
+  process.env.URI = `mongodb://${process.env.NODE_DB}`;
 }
 
 var express = require('express');
@@ -10,8 +10,21 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
+
 const MongoClient = require('mongodb');
 const Sitemap = require('./config/sitemap')
+
+var { graphqlHTTP } = require('express-graphql');
+var { buildSchema } = require('graphql');
+
+const typeDefs = require('./graphql/types');
+const resolvers = require('./graphql/resolvers');
+
+const { makeExecutableSchema } = require('@graphql-tools/schema');
+const schema = makeExecutableSchema({
+    typeDefs,
+    resolvers,
+});
 
 var indexRouter = require('./routes/index');
 var categoriesRouter = require('./routes/categories');
@@ -55,6 +68,16 @@ var NewsDAO = require('./dao/news.dao');
 
 var app = express();
 
+app.use(cors({
+    origin: "*", credentials: true
+}))
+
+app.use('/graphql', graphqlHTTP({
+    schema: schema,
+    // rootValue: root,
+    graphiql: true,
+}));
+
 MongoClient(process.env.URI, { useUnifiedTopology: true }).catch(err => {
     console.error(err.stack)
     process.exit(1)
@@ -79,9 +102,6 @@ MongoClient(process.env.URI, { useUnifiedTopology: true }).catch(err => {
     await NewsDAO.injectDB(client)
 })
 
-app.use(cors({
-  origin: "*", credentials: true
-}))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
