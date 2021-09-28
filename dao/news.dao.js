@@ -45,21 +45,17 @@ class NewsDAO {
         }
     }
 
-    static async gethome() {
+    static async findHome() {
         const cursor = await news
-        .aggregate([
-            { $match: { status: true } },
-            { $sort: {_id: -1} },
-            { $limit: 3}
-        ]);
+            .aggregate([
+                { $match: { status: true }},
+                { $sort: {_id: -1 }},
+                { $limit: 3 }
+            ]);
+        
         const results = await cursor.toArray();
                           
-        if (results) {
-            console.log(`Found a listing in the collection:'`);
-            return results
-        } else {
-            console.log(`No listings found`);
-        }
+        if (results) return results
     }
 
     static async findLast() {

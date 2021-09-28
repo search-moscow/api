@@ -4,6 +4,9 @@ module.exports = {
     Query: {
         newsFindLast: () => {
             return NewsDAO.findLast()
+        },
+        newsFindHome: () => {
+            return NewsDAO.findHome()
         }
     }
 }

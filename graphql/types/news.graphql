@@ -1,9 +1,11 @@
 type Article {
     slug: String
+    image: String
     title: String
     description: String
 }
 
 type Query {
     newsFindLast: [Article]
+    newsFindHome: [Article]
 }

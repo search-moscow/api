@@ -7,7 +7,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/read', RestaurantController.index);
-router.get('/gethome', RestaurantController.gethome);
 router.get('/getSortUp', RestaurantController.getSortUp);
 router.get('/getSortDown', RestaurantController.getSortDown);
 router.get('/read/:id', RestaurantController.single);

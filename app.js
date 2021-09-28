@@ -1,8 +1,8 @@
 if (process.env.NODE_ENV == 'production') {
     process.env.URI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@mongo:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false`;
 } else {
-//   process.env.URI = `mongodb://d3c0d3:d3c0d3cgjrbyjrb@130.193.44.49:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Beta&ssl=false`;
-  process.env.URI = `mongodb://${process.env.NODE_DB}`;
+  process.env.URI = `mongodb://d3c0d3:d3c0d3cgjrbyjrb@130.193.44.49:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Beta&ssl=false`;
+//   process.env.URI = `mongodb://${process.env.NODE_DB}`;
 }
 
 var express = require('express');
@@ -69,13 +69,13 @@ var NewsDAO = require('./dao/news.dao');
 var app = express();
 
 app.use(cors({
-    origin: "*", credentials: true
+    origin: ["http://localhost:9000", "http://localhost:4200"], credentials: true
 }))
 
 app.use('/graphql', graphqlHTTP({
     schema: schema,
     // rootValue: root,
-    graphiql: true,
+    graphiql: process.env.NODE_ENV === 'dev',
 }));
 
 MongoClient(process.env.URI, { useUnifiedTopology: true }).catch(err => {

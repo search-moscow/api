@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/read', NewsController.index);
-router.get('/gethome', NewsController.gethome);
+// router.get('/gethome', NewsController.gethome);
 router.get('/read/:id', NewsController.single);
 
 module.exports = router;
