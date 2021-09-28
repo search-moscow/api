@@ -12,4 +12,5 @@ type Product {
 type Query {
     products: [Product]
     product(slug: String): [Product]
+    productsFindHome: [Product]
 }

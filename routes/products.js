@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/read', ProductController.index);
-router.get('/gethome', ProductController.gethome);
+// router.get('/gethome', ProductController.gethome);
 router.get('/read/:id', ProductController.single);
 
 module.exports = router;

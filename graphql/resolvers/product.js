@@ -7,6 +7,9 @@ module.exports = {
         },
         product: (_, args) => {
             return ProductDAO.getBy(args.slug)
+        },
+        productsFindHome: () => {
+            return ProductDAO.findHome()
         }
     }
 }

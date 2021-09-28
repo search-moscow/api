@@ -45,30 +45,22 @@ class ProductDAO {
         }
     }
 
-    static async gethome() {
-        const cursor = await products
-        .aggregate([
-            { $match: { type: true } },
-            
-            { $addFields: { "shop": { $toObjectId: "$shop"}}},
-            { $lookup: { from: "shops", localField: "shop", foreignField: "_id", as: "shop" } },
-            { $unwind: "$shop" },
-            
-            { $addFields: { "subcategory": { $toObjectId: "$subcategory"}}},
-            { $lookup: { from: "subcategories", localField: "subcategory", foreignField: "_id", as: "subcategory" } },
-            { $unwind: "$subcategory" },
-            
-            { $sort: {views: -1} },
-            { $limit: 10}
-        ]);
-        const results = await cursor.toArray();
+    static async findHome() {
+        const results = await products
+            .aggregate([
+                { $match: { type: true }},
+                { $addFields: { "shop": { $toObjectId: "$shop" }}},
+                { $lookup: { from: "shops", localField: "shop", foreignField: "_id", as: "shop" }},
+                { $unwind: "$shop" },
+                { $addFields: { "subcategory": { $toObjectId: "$subcategory" }}},
+                { $lookup: { from: "subcategories", localField: "subcategory", foreignField: "_id", as: "subcategory" }},
+                { $unwind: "$subcategory" },
+                { $sort: {_id: -1 }},
+                { $limit: 10 }
+            ])
+            .toArray();
                           
-        if (results) {
-            console.log(`Found a listing in the collection:'`);
-            return results
-        } else {
-            console.log(`No listings found`);
-        }
+        if (results) return results
     }
 
     static async getBy(id) {
