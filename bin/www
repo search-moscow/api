@@ -13,8 +13,8 @@ var certificate
 if (process.env.NODE_ENV == 'production') {
   var https = require('https');
 
-  privateKey  = fs.readFileSync('./ssl/production/search.moscow.key', 'utf8');
-  certificate = fs.readFileSync('./ssl/production/search.moscow.crt', 'utf8');
+  // privateKey  = fs.readFileSync('./cert/CA/localhost/localhost.decrypted.key', 'utf8');
+  // certificate = fs.readFileSync('./cert/CA/localhost/localhost.crt', 'utf8');
 
   var credentials = {key: privateKey, cert: certificate};
 
@@ -34,8 +34,8 @@ if (process.env.NODE_ENV == 'production') {
 } else {
   var http = require('http');
   
-  // privateKey  = fs.readFileSync('./ssl/development/key.pem', 'utf8');
-  // certificate = fs.readFileSync('./ssl/development/cert.pem', 'utf8');
+  // privateKey  = fs.readFileSync('./cert/CA/localhost/localhost.decrypted.key', 'utf8');
+  // certificate = fs.readFileSync('./cert/CA/localhost/localhost.crt', 'utf8');
 
   /**
    * Get port from environment and store in Express.

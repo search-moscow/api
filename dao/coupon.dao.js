@@ -49,25 +49,20 @@ class CouponDAO {
         }
     }
 
-    static async gethome() {
-        const cursor = await coupons
-        .aggregate([
-            { $match: { type: true } },
-            { $addFields: { "metro": { $toObjectId: "$metro"}}},
-            { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" } },
-            { $addFields: { "district": { $toObjectId: "$district"}}},
-            { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" } },
-            { $sort: {_id: -1} },
-            { $limit: 10}
-        ]);
-        const results = await cursor.toArray();
+    static async findHome() {
+        const results = await coupons
+            .aggregate([
+                { $match: { type: true }},
+                { $addFields: { "metro": { $toObjectId: "$metro" }}},
+                { $lookup: { from: "metros", localField: "metro", foreignField: "_id", as: "metros" }},
+                { $addFields: { "district": { $toObjectId: "$district" }}},
+                { $lookup: { from: "districts", localField: "district", foreignField: "_id", as: "districts" }},
+                { $sort: {_id: -1 }},
+                { $limit: 10 }
+            ])
+            .toArray()
                           
-        if (results) {
-            console.log(`Found a listing in the collection:'`);
-            return results
-        } else {
-            console.log(`No listings found`);
-        }
+        if (results) return results
     }
 
     static async getBy(id) {

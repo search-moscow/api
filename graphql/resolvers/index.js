@@ -3,12 +3,14 @@ const restaurant = require('./restaurant');
 const shopResolver = require('./shop.resolver');
 const product = require('./product');
 const news = require('./news');
+const coupons = require('./coupon');
 
 const resolvers = [
     restaurant,
     shopResolver,
     product,
-    news
+    news,
+    coupons
 ];
 
 module.exports = mergeResolvers(resolvers);
