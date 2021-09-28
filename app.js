@@ -75,7 +75,7 @@ app.use(cors({
 app.use('/graphql', graphqlHTTP({
     schema: schema,
     // rootValue: root,
-    graphiql: process.env.NODE_ENV === 'dev',
+    graphiql: true
 }));
 
 MongoClient(process.env.URI, { useUnifiedTopology: true }).catch(err => {
