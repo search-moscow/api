@@ -29,20 +29,16 @@ class NewsDAO {
         }
     }
 
-    static async getAll() {
+    static async findAll() {
         const cursor = await news
-        .aggregate([
-            { $match: { status: true } },
-            { $sort: {_id: -1} }
-        ]);
+            .aggregate([
+                { $match: { status: true }},
+                { $sort: {_id: -1 }}
+            ])
+        
         const results = await cursor.toArray();
                           
-        if (results) {
-            console.log(`Found a listing in the collection:'`);
-            return results
-        } else {
-            console.log(`No listings found`);
-        }
+        if (results) return results
     }
 
     static async findHome() {

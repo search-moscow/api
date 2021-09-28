@@ -6,6 +6,7 @@ type Article {
 }
 
 type Query {
+    newsFindAll: [Article]
     newsFindLast: [Article]
     newsFindHome: [Article]
 }
