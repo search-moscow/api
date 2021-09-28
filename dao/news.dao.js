@@ -62,6 +62,19 @@ class NewsDAO {
         }
     }
 
+    static async findLast() {
+        const cursor = await news
+            .aggregate([
+                { $match: { status: true }},
+                { $sort: { _id: -1 }},
+                { $limit: 5 }
+            ]);
+        
+        const results = await cursor.toArray();
+                          
+        if (results) return results
+    }
+
     static async getBy(id) {
         const cursor = news
             .aggregate([
