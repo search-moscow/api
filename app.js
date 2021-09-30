@@ -14,18 +14,6 @@ var cors = require('cors')
 const MongoClient = require('mongodb');
 const Sitemap = require('./config/sitemap')
 
-var { graphqlHTTP } = require('express-graphql');
-var { buildSchema } = require('graphql');
-
-const typeDefs = require('./graphql/types');
-const resolvers = require('./graphql/resolvers');
-
-const { makeExecutableSchema } = require('@graphql-tools/schema');
-const schema = makeExecutableSchema({
-    typeDefs,
-    resolvers,
-});
-
 var indexRouter = require('./routes/index');
 var categoriesRouter = require('./routes/categories');
 var subcategoriesRouter = require('./routes/subcategories');
@@ -71,12 +59,6 @@ var app = express();
 app.use(cors({
     origin: ["http://localhost:9000", "http://localhost:4200"], credentials: true
 }))
-
-app.use('/graphql', graphqlHTTP({
-    schema: schema,
-    // rootValue: root,
-    graphiql: true
-}));
 
 MongoClient(process.env.URI, { useUnifiedTopology: true }).catch(err => {
     console.error(err.stack)

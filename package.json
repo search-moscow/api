@@ -6,14 +6,10 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "@graphql-tools/load-files": "^6.4.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "^4.17.1",
-    "express-graphql": "^0.12.0",
-    "graphql": "^15.5.2",
-    "graphql-tools": "^8.2.0",
     "mongodb": "^3.6.3",
     "morgan": "~1.9.1",
     "sitemap": "^6.3.3"
