@@ -1,9 +1,50 @@
-if (process.env.NODE_ENV == 'production') {
-    process.env.URI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@mongo:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false`;
-} else {
-  process.env.URI = `mongodb://d3c0d3:d3c0d3cgjrbyjrb@130.193.44.49:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Beta&ssl=false`;
-//   process.env.URI = `mongodb://${process.env.NODE_DB}`;
+// if (process.env.NODE_ENV == 'production') {
+//     process.env.URI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@mongo:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false`;
+// } else {
+//   process.env.URI = `mongodb://d3c0d3:d3c0d3cgjrbyjrb@130.193.44.49:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Beta&ssl=false`;
+// //   process.env.URI = `mongodb://${process.env.NODE_DB}`;
+// }
+
+const util = require('util');
+const fs = require('fs');
+
+const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    replSet: {
+        sslCA: fs.readFileSync(
+        './YandexInternalRootCA.crt')
+    }
 }
+
+if (process.env.NODE_ENV == 'production') {
+  process.env.URI = util.format(
+    'mongodb://%s:%s@%s/?replicaSet=%s&authSource=%s&ssl=true',
+    'user1',
+    'ngM$*6^gWn',
+    [
+        'rc1b-mjcz7jx2181n7z5f.mdb.yandexcloud.net:27018'
+    ].join(','),
+    'rs01',
+    'db1'
+  )
+
+} else if (process.env.NODE_ENV == 'development') {
+  process.env.URI = util.format(
+    'mongodb://%s:%s@%s/?replicaSet=%s&authSource=%s&ssl=true',
+    'user1',
+    'ngM$*6^gWn',
+    [
+        'rc1b-mjcz7jx2181n7z5f.mdb.yandexcloud.net:27018'
+    ].join(','),
+    'rs01',
+    'db1'
+  )
+} else {
+  process.env.URI = `mongodb://localhost`;
+
+}
+
 
 var express = require('express');
 var path = require('path');
@@ -60,7 +101,7 @@ app.use(cors({
     origin: ["http://localhost:9000", "http://localhost:4200"], credentials: true
 }))
 
-MongoClient(process.env.URI, { useUnifiedTopology: true }).catch(err => {
+MongoClient(process.env.URI, options).catch(err => {
     console.error(err.stack)
     process.exit(1)
 }).then(async client => {
