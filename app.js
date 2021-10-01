@@ -1,10 +1,3 @@
-// if (process.env.NODE_ENV == 'production') {
-//     process.env.URI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@mongo:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false`;
-// } else {
-//   process.env.URI = `mongodb://d3c0d3:d3c0d3cgjrbyjrb@130.193.44.49:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Beta&ssl=false`;
-// //   process.env.URI = `mongodb://${process.env.NODE_DB}`;
-// }
-
 const util = require('util');
 const fs = require('fs');
 
@@ -23,28 +16,14 @@ if (process.env.NODE_ENV == 'production') {
     'user1',
     'ngM$*6^gWn',
     [
-        'rc1b-mjcz7jx2181n7z5f.mdb.yandexcloud.net:27018'
-    ].join(','),
-    'rs01',
-    'db1'
-  )
-
-} else if (process.env.NODE_ENV == 'development') {
-  process.env.URI = util.format(
-    'mongodb://%s:%s@%s/?replicaSet=%s&authSource=%s&ssl=true',
-    'user1',
-    'ngM$*6^gWn',
-    [
-        'rc1b-mjcz7jx2181n7z5f.mdb.yandexcloud.net:27018'
+        'rc1b-rzfxbwyvh90dn894.mdb.yandexcloud.net:27018'
     ].join(','),
     'rs01',
     'db1'
   )
 } else {
   process.env.URI = `mongodb://localhost`;
-
 }
-
 
 var express = require('express');
 var path = require('path');
