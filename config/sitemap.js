@@ -1,17 +1,18 @@
 const { SitemapStream, streamToPromise } = require('sitemap')
 const { createGzip } = require('zlib')
-const { Readable } = require('stream')
+// const { Readable } = require('stream')
 
-var RestaurantDAO = require('../dao/restaurant.dao');
-var EventDAO = require('../dao/event.dao');
-var ShopDAO = require('../dao/shop.dao');
-var ServiceDAO = require('../dao/service.dao');
-var CouponDAO = require('../dao/coupon.dao');
-var ProductDAO = require('../dao/product.dao');
-var RealestateDAO = require('../dao/realestate.dao');
-var HotelDAO = require('../dao/hotel.dao');
-var HouseDAO = require('../dao/house.dao');
-var NewsDAO = require('../dao/news.dao');
+// var RestaurantDAO = require('../dao/restaurant.dao');
+// var EventDAO = require('../dao/event.dao');
+// var ShopDAO = require('../dao/shop.dao');
+// var ServiceDAO = require('../dao/service.dao');
+// var CouponDAO = require('../dao/coupon.dao');
+// var ProductDAO = require('../dao/product.dao');
+// var RealestateDAO = require('../dao/realestate.dao');
+// var HotelDAO = require('../dao/hotel.dao');
+// var HouseDAO = require('../dao/house.dao');
+// var NewsDAO = require('../dao/news.dao');
+var ActivityDAO = require('../dao/activity.dao');
 
 let sitemap
 
@@ -35,13 +36,14 @@ class Sitemap {
           
             // let restaurants = await RestaurantDAO.getAll()
             // let events = await EventDAO.getAll()
-            let shops = await ShopDAO.getAll()
+            // let shops = await ShopDAO.getAll()
             // let services = await ServiceDAO.getAll()
             // let realestates = await RealestateDAO.getAll()
             // let hotels = await HotelDAO.getAll()
             // let houses = await HouseDAO.getAll()
-            let news = await NewsDAO.getAll()
-            let products = await ProductDAO.getAll()
+            // let news = await NewsDAO.getAll()
+            // let products = await ProductDAO.getAll()
+            let activities = await ActivityDAO.getAllNoLimit()
       
             // restaurants.map((res) => {
             //     smStream.write({
@@ -52,14 +54,14 @@ class Sitemap {
             //     })
             // })
       
-            shops.map((res) => {
-                smStream.write({
-                    url: 'shops/' + res.slug,
-                    changefreq: 'weekly',
-                    lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
-                    priority: 0.5
-                })
-            })
+            // shops.map((res) => {
+            //     smStream.write({
+            //         url: 'shops/' + res.slug,
+            //         changefreq: 'weekly',
+            //         lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
+            //         priority: 0.5
+            //     })
+            // })
       
             // services.map((res) => {
             //     smStream.write({
@@ -88,23 +90,32 @@ class Sitemap {
             //     })
             // })
 
-            news.map((res) => {
+            // news.map((res) => {
+            //     smStream.write({
+            //         url: 'news/' + res.slug,
+            //         changefreq: 'weekly',
+            //         lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
+            //         priority: 0.5
+            //     })
+            // })
+
+            activities.map((res) => {
                 smStream.write({
-                    url: 'news/' + res.slug,
-                    changefreq: 'weekly',
-                    lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
-                    priority: 0.5
+                    url: `news/${res.category}/${res.url}`,
+                    changefreq: 'never',
+                    lastmod: `${new Date(res.date).getUTCFullYear()}-${new Date(res.date).getUTCMonth()+1}-${new Date(res.date).getUTCDate()}`,
+                    priority: 1.0
                 })
             })
 
-            products.map((res) => {
-                smStream.write({
-                    url: 'products/' + res.slug,
-                    changefreq: 'weekly',
-                    lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
-                    priority: 0.5
-                })
-            })
+            // products.map((res) => {
+            //     smStream.write({
+            //         url: 'products/' + res.slug,
+            //         changefreq: 'weekly',
+            //         lastmod: `${new Date(res.lastModified).getUTCFullYear()}-${new Date(res.lastModified).getUTCMonth()+1}-${new Date(res.lastModified).getUTCDate()+1}`,
+            //         priority: 0.5
+            //     })
+            // })
       
             // hotels.map((res) => {
             //     smStream.write({

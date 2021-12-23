@@ -33,7 +33,6 @@ class ActivityDAO {
         } else {
             console.log(`No listings found`);
         }
-
     }
 
     static async create(dao, slug, title, dateAdded) {
@@ -46,6 +45,22 @@ class ActivityDAO {
             }
         )
         return `New listing created with the following id: ${result.insertedId}`
+    }
+
+    static async getAllNoLimit() {
+        const cursor = await activities
+            .aggregate([
+                { $sort: {_id: -1} },
+            ]);
+
+        const results = await cursor.toArray();
+
+        if (results) {
+            console.log(`Found a listing in the collection:'`);
+            return results
+        } else {
+            console.log(`No listings found`);
+        }
     }
 
 }
