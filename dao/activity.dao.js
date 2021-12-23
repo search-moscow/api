@@ -1,15 +1,15 @@
 ObjectID = require('mongodb').ObjectID
 
 let activities
-let moscow
+let db1
 
 class ActivityDAO {
 
     static async injectDB(conn) {
         try {
             // process.env.MFLIX_NS
-            moscow = await conn.db('moscow')
-            activities = await moscow.collection("activities")
+            db1 = await conn.db('db1')
+            activities = await db1.collection("activities")
 
         } catch (e) {
           console.error(
@@ -22,7 +22,7 @@ class ActivityDAO {
         const cursor = await activities
         .aggregate([
             { $sort: {_id: -1} },
-            { $limit: 5}
+            { $limit: 12}
         ]);
 
         const results = await cursor.toArray();
