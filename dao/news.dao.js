@@ -67,7 +67,7 @@ class NewsDAO {
         if (results) return results
     }
 
-    static async getBy(id) {
+    static async findOne(id) {
         const cursor = news
             .aggregate([
                 { $match:{slug: id}},

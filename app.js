@@ -23,16 +23,6 @@ if (process.env.NODE_ENV == 'production') {
     )
 } else {
     process.env.URI = `mongodb://localhost`;
-    // process.env.URI = util.format(
-    //   'mongodb://%s:%s@%s/?replicaSet=%s&authSource=%s&ssl=true',
-    //   'user1',
-    //   'ngM$*6^gWn',
-    //   [
-    //       'rc1b-rzfxbwyvh90dn894.mdb.yandexcloud.net:27018'
-    //   ].join(','),
-    //   'rs01',
-    //   'db1'
-    // )
 }
 
 var express = require('express');

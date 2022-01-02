@@ -2,27 +2,36 @@ var NewsDAO = require('../dao/news.dao');
 
 class NewsController {
     
-    static async index(req, res) {
+    static async findAll(req, res) {
         try {
-            let response  = await NewsDAO.getAll()
+            let response = await NewsDAO.findAll()
             res.json(response)
         } catch (error) {
             res.status(500).json(error);
         }
     }
 
-    static async gethome(req, res) {
+    static async findHome(req, res) {
         try {
-            let response  = await NewsDAO.gethome()
+            let response = await NewsDAO.findHome()
             res.json(response)
         } catch (error) {
             res.status(500).json(error);
         }
     }
 
-    static async single(req, res) {
+    static async findLast(req, res) {
         try {
-            let response  = await NewsDAO.getBy(req.params.id)
+            let response = await NewsDAO.findLast()
+            res.json(response)
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    static async findOne(req, res) {
+        try {
+            let response = await NewsDAO.findOne(req.params.id)
             res.json(response) 
         } catch (error) {
             res.status(500).json(error);

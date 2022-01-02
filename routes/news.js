@@ -6,8 +6,9 @@ router.get('/', function(req, res, next) {
     res.send('respond with a resource');
 });
 
-router.get('/read', NewsController.index);
-// router.get('/gethome', NewsController.gethome);
-router.get('/read/:id', NewsController.single);
+router.get('/all', NewsController.findAll);
+router.get('/home', NewsController.findHome);
+router.get('/last', NewsController.findLast);
+router.get('/one/:id', NewsController.findOne);
 
 module.exports = router;
