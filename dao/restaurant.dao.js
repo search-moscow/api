@@ -29,7 +29,7 @@ class RestaurantDAO {
         }
     }
 
-    static async getAll() {
+    static async findAll() {
         const cursor = await restaurants
         .aggregate([
             { $match: { status: true } },
@@ -114,7 +114,20 @@ class RestaurantDAO {
         if (results) return results
     }
 
-    static async getBy(id) {
+    static async findLast() {
+        const cursor = await restaurants
+            .aggregate([
+                { $match: { status: true }},
+                { $sort: { _id: -1 }},
+                { $limit: 5 }
+            ]);
+
+        const results = await cursor.toArray();
+
+        if (results) return results
+    }
+
+    static async findOne(id) {
         const cursor = restaurants
             .aggregate([
                 { $match:{slug: id}},
