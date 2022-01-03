@@ -29,7 +29,7 @@ class ProductDAO {
         }
     }
 
-    static async getAll() {
+    static async findAll() {
         const cursor = await products
         .aggregate([
             { $match: { type: true } },
@@ -63,7 +63,20 @@ class ProductDAO {
         if (results) return results
     }
 
-    static async getBy(id) {
+    static async findLast() {
+        const cursor = await products
+            .aggregate([
+                { $match: { type: true }},
+                { $sort: { _id: -1 }},
+                { $limit: 5 }
+            ]);
+
+        const results = await cursor.toArray();
+
+        if (results) return results
+    }
+
+    static async findOne(id) {
         const cursor = products
             .aggregate([
                 { $match:{slug: id}},

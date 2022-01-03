@@ -6,8 +6,9 @@ router.get('/', function(req, res, next) {
     res.send('respond with a resource');
 });
 
-router.get('/read', ProductController.index);
-// router.get('/gethome', ProductController.gethome);
-router.get('/read/:id', ProductController.single);
+router.get('/all', ProductController.findAll);
+router.get('/home', ProductController.findHome);
+router.get('/last', ProductController.findLast);
+router.get('/one/:id', ProductController.findOne);
 
 module.exports = router;
