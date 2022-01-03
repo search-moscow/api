@@ -29,7 +29,7 @@ class CouponDAO {
         }
     }
 
-    static async getAll() {
+    static async findAll() {
         const cursor = await coupons
         .aggregate([
             { $match: { type: true } },
@@ -65,7 +65,20 @@ class CouponDAO {
         if (results) return results
     }
 
-    static async getBy(id) {
+    static async findLast() {
+        const cursor = await coupons
+            .aggregate([
+                { $match: { type: true }},
+                { $sort: { _id: -1 }},
+                { $limit: 5 }
+            ]);
+
+        const results = await cursor.toArray();
+
+        if (results) return results
+    }
+
+    static async findOne(id) {
         const cursor = coupons
             .aggregate([
                 { $match:{slug: id}},

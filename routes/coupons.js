@@ -7,8 +7,9 @@ router.get('/', function(req, res, next) {
 });
 
 // router.post('/create', upload.single("uploadFile"), CouponController.create);
-router.get('/read', CouponController.index);
-// router.get('/gethome', CouponController.gethome);
-router.get('/read/:id', CouponController.single);
+router.get('/all', CouponController.findAll);
+router.get('/home', CouponController.findHome);
+router.get('/last', CouponController.findLast);
+router.get('/one/:id', CouponController.findOne);
 
 module.exports = router;
