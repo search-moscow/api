@@ -59,7 +59,7 @@ class NewsDAO {
             .aggregate([
                 { $match: { status: true }},
                 { $sort: { _id: -1 }},
-                { $limit: 5 }
+                { $limit: 3 }
             ]);
         
         const results = await cursor.toArray();
